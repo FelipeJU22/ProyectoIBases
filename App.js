@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './screens/login';
 import Home from './screens/home';
+import Account from './screens/resetPassword';
 
 
 
@@ -23,6 +24,16 @@ function App() {
       <Stack.Screen name="Home" component={Home} options={{
     headerShown: false
   }}/>
+      <Stack.Screen name="Account" component={Account} options={{
+            headerTransparent: true,
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'transparent', // Fondo del encabezado transparente
+              elevation: 0, // Elimina la sombra en Android
+              shadowOpacity: 0, // Elimina la sombra en iOS
+            },
+            headerTintColor: '#fff', // Color del texto del encabezado
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

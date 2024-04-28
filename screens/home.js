@@ -1,11 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const HomeScreen = ({ navigation }) => {
+    const [date, setDate] = useState(null);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
 
     const backLogin = () => {
         navigation.navigate('Login');
     };
+
+    const manageAccount = () => {
+        navigation.navigate('Account');
+    };
+
+    const handleDateChange = (event, selectedDate) => {
+        if (event.type === 'set') {
+            const currentDate = selectedDate || date;
+            setDate(currentDate);
+            setShowDatePicker(false);
+            setShowTimePicker(true);
+        }
+    };
+
+    const handleTimeChange = (event, selectedTime) => {
+        setShowTimePicker(false);
+        if (event.type === 'set') {
+            // Aquí puedes hacer lo que quieras con la fecha seleccionada (date) y la hora seleccionada (selectedTime)
+            console.log('Fecha seleccionada:', date);
+            console.log('Hora seleccionada:', selectedTime);
+        }
+    };
+    const threeWeeksFromNow = new Date();
+    threeWeeksFromNow.setDate(threeWeeksFromNow.getDate() + 21); // Calcula la fecha tres semanas desde hoy
+
 
     return (
         <ImageBackground source={require('../assets/homeBG.png')} style={styles.background}>
@@ -14,9 +43,28 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.formContainer}>
                         <Text style={styles.buttonText}>¡Bienvenido AAA!</Text>
 
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={() => setShowDatePicker(true)}>
                             <Text style={styles.buttonText}>Reservar laboratorio</Text>
                         </TouchableOpacity>
+                        {showDatePicker && (
+                            <DateTimePicker
+                                mode={'date'}
+                                value={date || new Date()}
+                                minimumDate={new Date()}
+                                maximumDate={threeWeeksFromNow} 
+                                onChange={handleDateChange}
+                            />
+                        )
+                        }
+                        {showTimePicker && (
+                            <DateTimePicker
+                                mode={'time'}
+                                display="clock" 
+                                value={date || new Date()}
+                                minuteInterval={60} 
+                                onChange={handleTimeChange}
+                            />
+                        )}
                         <TouchableOpacity style={styles.button}>
                             <Text style={styles.buttonText}>Aprobar préstamos</Text>
                         </TouchableOpacity>
@@ -26,7 +74,7 @@ const HomeScreen = ({ navigation }) => {
                     <TouchableOpacity style={styles.buttonL} onPress={backLogin}>
                         <Text style={styles.buttonText}>Actualizar base de datos</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonR}>
+                    <TouchableOpacity style={styles.buttonR} onPress={manageAccount}>
                         <Text style={styles.buttonText}>Administrar cuenta</Text>
                     </TouchableOpacity>
                 </View>
@@ -93,11 +141,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         marginBottom: 20,
-      },
+    },
     buttonText: {
         color: '#ffffff', // Color del texto del botón
         fontSize: 16,
-
     },
 });
 
