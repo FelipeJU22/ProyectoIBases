@@ -1,6 +1,7 @@
 import classes from './MainHeader.module.css';
 
 function MainHeader({ onCreatePost }) {
+
   return (
     <header className={classes.header}>
       <h1 className={classes.title}>
