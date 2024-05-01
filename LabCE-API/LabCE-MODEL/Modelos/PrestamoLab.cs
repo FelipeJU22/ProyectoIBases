@@ -8,7 +8,11 @@
         public string NombreEstudiante { get; set; }
         public string Apellido1Estudiante{ get; set;}
         public string Apellido2Estudiante { get;set;}
+        public DateTime Fecha { get; set;}
+        public DateTime HoraInicio { get; set;}
+        public DateTime HoraFinal {  get; set;}
         public string CorreoProfesor {  get; set;}
+        public string NombreLab {  get; set;}
         public Profesor Profesor { get; set;}  
     }
 }

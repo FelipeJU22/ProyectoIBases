@@ -16,6 +16,9 @@ namespace LabCE_MODEL.Modelos
         public string NumeroCedula { get; set; }
         public string Password { get; set; }
         public bool Aprobado { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public int Carnet {  get; set; }
+        public string CorreoAdministrador {  get; set; }
         public Administrador Administrador { get; set; }
         public ICollection<Registro> Registros { get; set; }
         public ICollection<SolicitudActivo> SolicitudesActivos { get; set; }
