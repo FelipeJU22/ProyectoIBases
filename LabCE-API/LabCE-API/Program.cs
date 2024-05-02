@@ -1,4 +1,5 @@
 using LabCE_BLL;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,16 @@ builder.Services.AddLabCEServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore).AddNewtonsoftJson(
+    options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+
 var app = builder.Build();
+
+app.UseCors(c => c.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
