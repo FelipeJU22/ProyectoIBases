@@ -1,18 +1,153 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, ImageBackground,  Modal, FlatList, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Feather } from '@expo/vector-icons'; // Importa los iconos de Feather (o cualquier otra biblioteca de iconos)
+import { db} from '../DataBase_SQLite/DBTables'; // Importa la función para verificar y crear la base de datos
 
-const HomeScreen = ({ navigation }) => {
+
+const HomeScreen = ({ navigation, route }) => {
+    const { email } = route.params;
+    const user = email.split('@')[0];
+
     const [date, setDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [showTimePicker, setShowTimePicker] = useState(false);
+    const [showLabPickerModal, setShowLabPickerModal] = useState(false);
+    const [showTimePickerModal, setShowTimePickerModal] = useState(false);
+    const [selectedTime, setSelectedTime] = useState(null);
+    const [approve, setApprove] = useState(false);
+    const [selectedLab, setSelectedLab] = useState(null);
 
+    const [solicitudes, setSolicitudes] = useState([]);
+
+    const [prestamosList, setPrestamosList] = useState([]);
+
+    const [laboratorios, setLaboratorios] = useState([]);
+
+    const [horas, setHoras] = useState([]);
+
+    const [availableTimes, setAvailableTimes] = useState( [
+            "01:00:00",
+            "02:00:00",
+            "03:00:00",
+            "04:00:00",
+            "05:00:00",
+            "06:00:00",
+            "07:00:00",
+            "08:00:00",
+            "09:00:00",
+            "10:00:00",
+            "11:00:00",
+            "12:00:00",
+            "13:00:00",
+            "14:00:00",
+            "15:00:00",
+            "16:00:00",
+            "17:00:00",
+            "18:00:00",
+            "19:00:00",
+            "20:00:00",
+            "21:00:00",
+            "22:00:00",
+            "23:00:00",
+            "24:00:00",
+          ]
+    )
+
+    const [horasSinSolicitud, setHorasSinSolicitud] = useState([]);
+    const [loading, setLoading] = useState(true); // Nuevo estado para indicar si los datos están cargando
+
+
+    useEffect(() => {
+        obtenerSolicitudes();
+        obtenerLaboratoriosDisponibles();
+      }, []);
+
+    useEffect(() => {
+        obtenerHorasDisponibles();
+      }, [date, selectedLab]);
+    
+    useEffect(() => {
+        if (!loading) {
+            obtenerHorasFiltradas();
+        }
+      }, [horas, loading]);
+
+    const obtenerSolicitudes = () => {
+        db.transaction(tx => {
+          tx.executeSql(
+            'SELECT nombre_estudiante || ", " || tipo_activo || ", " || id AS solicitud FROM SOLICITUD_ACTIVO WHERE aprobado = 0;', // Concatena los valores de nombre_estudiante y tipo_activo con una coma
+            [],
+            (tx, results) => {
+              const data = [];
+              for (let i = 0; i < results.rows.length; ++i) {
+                data.push(results.rows.item(i).solicitud); // Agrega la cadena concatenada a la lista de datos
+              }
+              setPrestamosList(data);
+            },
+            error => {
+              console.error('Error al obtener las solicitudes:', error);
+            }
+          );
+        });
+      };
+
+      const obtenerLaboratoriosDisponibles = () => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'SELECT nombre_lab FROM LABORATORIO;',
+                [],
+                (tx, results) => {
+                    const data = [];
+                    for (let i = 0; i < results.rows.length; ++i) {
+                        data.push(results.rows.item(i).nombre_lab);
+                    }
+                    setLaboratorios(data);
+                },
+                error => {
+                    console.error('Error al obtener los laboratorios:', error);
+                }
+            );
+        });
+    };
+    const obtenerHorasFiltradas = () => {
+                // Restar las horas disponibles de la lista availableTimes
+        const filteredTimes = availableTimes.filter(time => !horas.includes(time));
+        console.log("LISTA HORAS:",horas);
+
+        console.log("HORAS FILTRADAS:",filteredTimes);
+        // Establecer las horas filtradas como las disponibles para mostrar al usuario
+        setHorasSinSolicitud(filteredTimes);
+    };
+
+    const obtenerHorasDisponibles = () => {
+        if (!date || !selectedLab) return; // Verifica si date y selectedLab están definidos
+        db.transaction(tx => {
+            tx.executeSql(
+                'SELECT hora FROM HORARIO WHERE fecha = ? AND nombre_lab = ?;',
+                [date.toISOString().split('T')[0], selectedLab],
+                (tx, results) => {
+                    const horasDisponibles = [];
+                    for (let i = 0; i < results.rows.length; i++) {
+                        horasDisponibles.push(results.rows.item(i).hora);
+                    }
+                    console.log("FECHA:",date.toISOString().split('T')[0]);
+                    console.log("LAB:",selectedLab);
+                    // Ahora tienes la lista de horas disponibles en el día y laboratorio seleccionados
+                    setHoras(horasDisponibles);
+                    setLoading(false); // Indica que los datos ya no están cargando
+                },
+                error => {
+                    console.error('Error al obtener las horas disponibles:', error);
+                }
+            );
+        });
+    };
     const backLogin = () => {
         navigation.navigate('Login');
     };
 
     const manageAccount = () => {
-        navigation.navigate('Account');
+        navigation.navigate('Account', { email: email });
     };
 
     const handleDateChange = (event, selectedDate) => {
@@ -20,20 +155,62 @@ const HomeScreen = ({ navigation }) => {
             const currentDate = selectedDate || date;
             setDate(currentDate);
             setShowDatePicker(false);
-            setShowTimePicker(true);
+            setShowLabPickerModal(true);
+            // Aquí podrías realizar cualquier lógica adicional necesaria
         }
     };
 
-    const handleTimeChange = (event, selectedTime) => {
-        setShowTimePicker(false);
-        if (event.type === 'set') {
-            // Aquí puedes hacer lo que quieras con la fecha seleccionada (date) y la hora seleccionada (selectedTime)
-            console.log('Fecha seleccionada:', date);
-            console.log('Hora seleccionada:', selectedTime);
-        }
+    const handleLabPress = (lab) => {
+        setSelectedLab(lab);
+        setShowLabPickerModal(false);
+        obtenerHorasFiltradas(date,lab);
+        setShowTimePickerModal(true);
+    }
+
+    const handleTimePress = (time) => {
+        setSelectedTime(time);
+        setShowTimePickerModal(false);
+        // Aquí podrías realizar cualquier lógica adicional necesaria
+        db.transaction(tx => {
+            tx.executeSql(
+                'INSERT INTO HORARIO (fecha, nombre_lab, hora) VALUES (?, ?, ?);',
+                [date.toISOString().split('T')[0], selectedLab, time],
+                (tx, results) => {
+                    console.log('Hora seleccionada guardada en la tabla HORARIO:', results.rowsAffected);
+                    // Aquí puedes realizar cualquier acción adicional después de guardar la hora seleccionada
+                },
+                error => {
+                    console.error('Error al guardar la hora seleccionada:', error);
+                }
+            );
+        });
+
+        console.log('Día seleccionado:', date.toISOString().split('T')[0]);
+        console.log('Lab seleccionado:', selectedLab)
+        console.log('Hora seleccionada:', time);
     };
+
+
     const threeWeeksFromNow = new Date();
     threeWeeksFromNow.setDate(threeWeeksFromNow.getDate() + 21); // Calcula la fecha tres semanas desde hoy
+
+
+    const handleCheck = (idSolicitud) => {
+        db.transaction(tx => {
+          tx.executeSql(
+            'UPDATE SOLICITUD_ACTIVO SET aprobado = ? WHERE id = ?;',
+            [1, idSolicitud], // Cambia el valor de "aprobado" a 1 para la solicitud con el id específico
+            () => { 
+              console.log(`Solicitud ${idSolicitud} aprobada exitosamente`);
+              // Aquí puedes realizar cualquier otra acción necesaria después de aprobar la solicitud
+            },
+            error => { console.error('Error al aprobar la solicitud:', error); }
+          );
+        });
+        obtenerSolicitudes();
+      };
+
+    
 
 
     return (
@@ -41,7 +218,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.container}>
                 <View style={styles.content}>
                     <View style={styles.formContainer}>
-                        <Text style={styles.buttonText}>¡Bienvenido AAA!</Text>
+                        <Text style={styles.buttonText}>¡Bienvenido/a {user}!</Text>
 
                         <TouchableOpacity style={styles.button} onPress={() => setShowDatePicker(true)}>
                             <Text style={styles.buttonText}>Reservar laboratorio</Text>
@@ -56,23 +233,108 @@ const HomeScreen = ({ navigation }) => {
                             />
                         )
                         }
-                        {showTimePicker && (
-                            <DateTimePicker
-                                mode={'time'}
-                                display="clock" 
-                                value={date || new Date()}
-                                minuteInterval={60} 
-                                onChange={handleTimeChange}
-                            />
-                        )}
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Aprobar préstamos</Text>
+
+                        <Modal
+                            visible={showLabPickerModal}
+                            animationType="slide"
+                            transparent={true}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalContent2}>
+                                    <View style={styles.header}>
+                                        <Text style={styles.headerText}>Laboratorio</Text>
+                                        <Text style={styles.headerText}>Características</Text>
+
+                                    </View>
+                                    <ScrollView>
+                                    {laboratorios.map((item, index) => (
+                                        <View style={styles.row} key={index}>
+                                            <TouchableOpacity onPress={() => handleLabPress(item)}>
+                                                <Text style={styles.column}>Laboratorio {item}</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={[styles.iconContainer, {marginRight:70}]}>
+                                                    <Feather name="info" size={24} color="black" />
+                                                </TouchableOpacity>
+                                        </View>
+                                    ))}
+                                    
+                                    </ScrollView>
+                                    <TouchableOpacity onPress={() => setShowLabPickerModal(false)}>
+                                        <Text style={styles.modalClose2}>Cancelar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+
+
+                        <Modal
+                            visible={showTimePickerModal}
+                            animationType="slide"
+                            transparent={true}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalContent}>
+                                    <View style={styles.modalHeader}>
+                                        <Text style={styles.modalHeaderText}>Seleccione una hora:</Text>
+                                    </View>
+                                    <FlatList
+                                        data={horasSinSolicitud}
+                                        keyExtractor={(item) => item}
+                                        renderItem={({ item }) => (
+                                            <TouchableOpacity onPress={() => handleTimePress(item)}>
+                                                <Text style={styles.item}>{item.split(':')[0] + ':' + item.split(':')[1] }</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                    />
+                                    <TouchableOpacity onPress={() => setShowTimePickerModal(false)}>
+                                        <Text style={styles.modalClose}>Cancelar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+
+
+                        <TouchableOpacity style={styles.button} onPress={() => setApprove(true)}>
+                            <Text style={styles.buttonText}>Aprobar préstamos de activos</Text>
                         </TouchableOpacity>
+                        
+                        <Modal
+                            visible={approve}
+                            animationType="slide"
+                            transparent={true}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalContent2}>
+                                    <View style={styles.header}>
+                                        <Text style={styles.headerText}>Estudiante</Text>
+                                        <Text style={styles.headerText}>Activo</Text>
+                                        <Text style={styles.headerText}></Text>
+
+
+                                    </View>
+                                    <ScrollView>
+                                    {prestamosList.map((item, index) => (
+                                        <View style={styles.row} key={index}>
+                                            <Text style={styles.column}>{item.split(',')[0]}</Text>
+                                            <Text style={styles.column}>{item.split(',')[1]}</Text>
+                                            <TouchableOpacity style={styles.iconContainer} onPress={() => handleCheck(item.split(',')[2])}>
+                                                <Feather name="check-circle" size={20} color="green" />
+                                            </TouchableOpacity>
+                                        </View>
+                                    ))}
+                                    
+                                    </ScrollView>
+                                    <TouchableOpacity onPress={() => setApprove(false)}>
+                                        <Text style={styles.modalClose2}>Cancelar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
                     </View>
                 </View>
                 <View style={styles.bottomBar}>
                     <TouchableOpacity style={styles.buttonL} onPress={backLogin}>
-                        <Text style={styles.buttonText}>Actualizar base de datos</Text>
+                        <Text style={styles.buttonText}>Cerrar sesión</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttonR} onPress={manageAccount}>
                         <Text style={styles.buttonText}>Administrar cuenta</Text>
@@ -145,6 +407,92 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#ffffff', // Color del texto del botón
         fontSize: 16,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        width: '80%',
+        maxHeight: 300,
+        marginTop: 40, // Ajusta el margen superior para que no se solape con el encabezado
+    },
+    modalHeader: {
+        backgroundColor: '#1c73b4',
+        padding: 15,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+    },
+    modalHeaderText: {
+        color: '#ffffff',
+        fontSize: 20,
+        textAlign: 'left',
+        fontWeight: '400',
+    },
+
+    item: {
+        fontSize: 18,
+        marginTop: 25,
+        fontWeight: '300',
+        textAlign: 'center',
+    },
+    modalClose: {
+        fontSize: 18,
+        color: '#1c73b4',
+        textAlign: 'center',
+        marginTop: 15,
+        marginBottom: 15,
+        fontWeight: '500',
+    },
+    modalContent2: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        padding: 20,
+        width: '95%',
+        maxHeight: 300,
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+    },
+    headerText: {
+        fontWeight: '500',
+        fontSize: 20,
+        flex: 1,
+        textAlign: 'center',
+        color: '#1c73b4',
+
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    column: {
+        flex: 1,
+        textAlign: 'left',
+        fontWeight: '400',
+        fontSize: 15,
+        marginLeft: 10,
+
+    },
+    iconContainer: {
+        justifyContent: 'center',
+        alignItems: 'left',
+        width: 30,
+        marginRight: 50,
+    },
+    modalClose2: {
+        fontSize: 18,
+        color: '#1c73b4',
+        textAlign: 'center',
+        fontWeight: '500',
     },
 });
 

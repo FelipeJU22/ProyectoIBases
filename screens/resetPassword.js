@@ -1,54 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Button, Alert, StyleSheet, ImageBackground } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { cambiarContraseña } from '../DataBase_SQLite/DBTables';
+import md5 from 'md5';
 
-const ResetPasswordScreen = () => {
-  const [email, setEmail] = useState('');
+
+const ResetPasswordScreen = ({navigation, route}) => {
+  const { email } = route.params;
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(false);
 
   const handleConfirmPassword = () => {
-    if (password === confirmPassword) {
-      setPasswordsMatch(true);
-    } else {
-      setPasswordsMatch(false);
+    const passwordsMatch = password === confirmPassword;
+    setPasswordsMatch(passwordsMatch);
+  };
+
+  useEffect(() => {
+    handleConfirmPassword();
+  }, [password, confirmPassword]);
+
+  const handlePasswordChange = (value, field) => {
+    if (field === 'password') {
+      setPassword(value);
+    } else if (field === 'confirmPassword') {
+      setConfirmPassword(value);
     }
   };
+
+  const handleResetPassword = () => {
+    if (passwordsMatch) {
+      const hashedPassword = cifrarPassword(password);
+      cambiarContraseña(email, hashedPassword)
+        .then(() => {
+          Alert.alert('Contraseña restablecida con éxito');
+          navigation.navigate('Home', { email: email });
+        })
+        .catch(error => {
+          console.error('Error al restablecer la contraseña:', error);
+          Alert.alert('Error al restablecer la contraseña');
+        });
+    } else {
+      Alert.alert('Las contraseñas no coinciden, intente de nuevo');
+    }
+  };
+
+  const cifrarPassword = (password) => {
+    return md5(password);
+  }
 
   return (
     <ImageBackground source={require('../assets/homeBG.png')} style={styles.background}>
       <View style={styles.container}>
         <View style={styles.formContainer}>
+          <Text style={styles.buttonText}>Escribe la nueva contraseña</Text>
           <TextInput
             style={styles.passwordInput}
-            placeholder="Contraseña anterior"
+            placeholder="Nueva contraseña"
+            value={password}
+            secureTextEntry={true}
+            onChangeText={(value) => handlePasswordChange(value, 'password')}
           />
-          <TextInput
-              style={styles.passwordInput}
-              placeholder="Nueva contraseña"
-              value={password}
-              secureTextEntry={true}
-              onChangeText={setPassword}
-            />
           <View style={styles.passwordContainer}>
-          <TextInput
+            <TextInput
               style={styles.passwordInput}
               placeholder="Confirmar contraseña"
               value={confirmPassword}
               secureTextEntry={true}
-              onChangeText={setConfirmPassword}
-              onBlur={handleConfirmPassword}
+              onChangeText={(value) => handlePasswordChange(value, 'confirmPassword')}
             />
-            {passwordsMatch ? (
-            <FontAwesome name="check" size={24} color="green" />
-          ) : (
-            <FontAwesome name="times" size={24} color="red" />
-          )}
+            {(password.length > 0 && confirmPassword.length > 0) && (
+              passwordsMatch ? (
+                <FontAwesome style={styles.toggle} name="check" size={35} color="green" />
+              ) : (
+                <FontAwesome style={styles.toggle} name="times" size={35} color="red" />
+              )
+            )}
           </View>
-          
-          
-          <TouchableOpacity style={styles.button} >
+          <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
             <Text style={styles.buttonText}>Restablecer contraseña</Text>
           </TouchableOpacity>
         </View>
@@ -60,9 +89,9 @@ const ResetPasswordScreen = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: 'cover', // Opcional, para ajustar la imagen de fondo a la pantalla
+    resizeMode: 'cover',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.1)', // Opacidad del 80%
+    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   container: {
     flex: 1,
@@ -71,22 +100,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   formContainer: {
-    backgroundColor: 'rgba(0,0,0,0.5)', // Color de fondo semi-transparente
+    backgroundColor: 'rgba(0,0,0,0.5)',
     borderRadius: 10,
     padding: 20,
     width: '90%',
     maxWidth: 400,
   },
   button: {
-    backgroundColor: '#3D8E9C', // Color de fondo del botón
+    backgroundColor: '#4988af',
+    width: 300,
     borderRadius: 5,
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 15,
     alignItems: 'center',
+    marginTop: 10,
   },
   buttonText: {
-    color: 'black', // Color del texto del botón
-    fontSize: 19,
+    color: '#ffffff',
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 15,
   },
   input: {
     width: '84%',
@@ -97,7 +130,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    backgroundColor: '#fff', // Color de fondo para que el texto sea legible
+    backgroundColor: '#fff',
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -111,7 +144,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    backgroundColor: '#fff', // Color de fondo para que el texto sea legible
+    backgroundColor: '#fff',
+  },
+  toggle: {
+    padding: 10,
+    marginBottom: 15,
   },
 });
 

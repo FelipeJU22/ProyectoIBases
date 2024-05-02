@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Button, Alert, StyleSheet, ImageBackground } from 'react-native';
 import { Feather } from '@expo/vector-icons'; // Importa los iconos de Feather (o cualquier otra biblioteca de iconos)
+import { db } from '../DataBase_SQLite/DBTables'; // Importa la función para verificar y crear la base de datos
+import md5 from 'md5';
 
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Estado para controlar si se muestra la contraseña o no
@@ -11,13 +13,30 @@ const LoginScreen = ({navigation}) => {
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Cambia el estado para mostrar u ocultar la contraseña
   };
+
   const handleLogin = () => {
-    if (email === 'aa' && password === 'aa') {
-        navigation.navigate('Home');
-      } else {
-        Alert.alert('Error', 'Correo o contraseña incorrectos');
-      }
+    const hashedPassword = cifrarPassword(password);
+    db.transaction(tx => {
+      tx.executeSql(
+        'SELECT * FROM PROFESOR WHERE correo = ? AND password = ?',
+        [email, hashedPassword],
+        (tx, results) => {
+          if (results.rows.length > 0) {
+            navigation.navigate('Home', { email: email });
+          } else {
+            Alert.alert('Error', 'Correo o contraseña incorrectos');
+          }
+        },
+        error => {
+          console.error('Error al buscar el profesor en la base de datos:', error);
+        }
+      );
+    });
   };
+
+  const cifrarPassword = (password) => {
+    return md5(password);
+  }
 
   return (
     <ImageBackground source={require('../assets/loginBG.png')} style={styles.background}>
