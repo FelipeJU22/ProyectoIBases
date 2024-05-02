@@ -1,5 +1,5 @@
 ﻿using LabCE_BLL.Interfaces;
-using LabCE_DALSQL.Seguridad;
+using LabCE_DALSQL;
 using LabCE_MODEL.DTOs;
 using Microsoft.Extensions.Configuration;
 using System;

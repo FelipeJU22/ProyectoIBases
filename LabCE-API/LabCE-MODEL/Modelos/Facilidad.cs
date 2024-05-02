@@ -8,8 +8,7 @@ namespace LabCE_MODEL.Modelos
 {
     public class Facilidad
     {
-        public string NombreLab { get; set; }
-        public string NombreFacilidad { get; set; }
-        public Laboratorio Laboratorio { get; set; }
+        public string? NombreLab { get; set; }
+        public string? NombreFacilidad { get; set; }
     }
 }

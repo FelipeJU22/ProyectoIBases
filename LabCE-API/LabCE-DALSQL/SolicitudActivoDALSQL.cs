@@ -1,4 +1,5 @@
-﻿using LabCE_MODEL.Modelos;
+﻿using AutoMapper;
+using LabCE_MODEL.DTOs;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -7,64 +8,19 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.AccessControl;
-using AutoMapper;
-using LabCE_MODEL.DTOs;
 
 namespace LabCE_DALSQL
 {
-    public class ProfesorDALSQL
+    public class SolicitudActivoDALSQL
     {
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
-        public ProfesorDALSQL(IConfiguration configuration, IMapper mapper)
+        public SolicitudActivoDALSQL(IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
-            _mapper = mapper;   
+            _mapper = mapper;
         }
-
-        public List<ProfesorDTO> GetProfesorCredenciales() 
-        {
-            string baseDatos = _configuration.GetConnectionString("default");
-            string procedAlmacenado = "[credenciales_profesor]";
-
-            var profesores = new List<Profesor>();
-                            
-            try
-            {
-                using (SqlConnection conexion = new SqlConnection(baseDatos))
-                {
-                    conexion.Open();
-
-                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
-                    {
-                        comando.CommandType = CommandType.StoredProcedure;
-
-                        using (IDataReader respuesta = comando.ExecuteReader())
-                        {
-                            while (respuesta.Read())
-                            {
-                                Profesor profesor = new Profesor()
-                                {
-                                    Correo = respuesta["correo"].ToString(),
-                                    Password = respuesta["password"].ToString()
-                                };
-                                profesores.Add(profesor);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            List<ProfesorDTO> profesoresDTO = profesores.Select(p => _mapper.Map<ProfesorDTO>(p)).ToList();
-
-            return profesoresDTO;
-        }
-
         public List<SolicitudPendienteDTO> GetSolicitudesPendientes(string correoProfesor)
         {
             string baseDatos = _configuration.GetConnectionString("default");
@@ -108,6 +64,5 @@ namespace LabCE_DALSQL
 
             return solicitudes;
         }
-
     }
 }

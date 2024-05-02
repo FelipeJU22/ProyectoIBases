@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace LabCE_DALSQL.Seguridad
+namespace LabCE_DALSQL
 {
     public class SeguridadDALSQL
     {
@@ -42,7 +42,7 @@ namespace LabCE_DALSQL.Seguridad
                     }
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }

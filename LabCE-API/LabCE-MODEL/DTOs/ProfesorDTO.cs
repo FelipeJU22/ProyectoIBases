@@ -8,7 +8,7 @@ namespace LabCE_MODEL.DTOs
 {
     public class ProfesorDTO
     {
-        public string Correo {  get; set; }
-        public string Contraseña { get; set; }
+        public string? Correo {  get; set; }
+        public string? Password { get; set; }
     }
 }
