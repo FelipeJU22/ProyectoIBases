@@ -6,10 +6,22 @@ function ProfessorBody() {
     const [solicitudes, setSolicitude] = useState([])
 
     useEffect(() => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                correo: "betico@gmail.com",
+                contraseña: "beto1234"
+              })
+        };
+
         async function fetchPosts() {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-            const resData = await response.json();
-            console.log(resData);
+            const response = await fetch('http://localhost:5095/Ingreso/IngresoAdministrador', requestOptions)
+            const textData = await response.text();
+            //const resData = await response.json();
+            //console.log(resData);
+            console.log(textData); // Log the response data
+            //const resData = await JSON.parse(response); // Try parsing the response data
         }
 
         fetchPosts();

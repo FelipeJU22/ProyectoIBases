@@ -4,16 +4,22 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import MainHeader from './components/MainHeader'
 import LoginPage from './components/LoginPage'
+import {Route, Routes, BrowserRouter} from 'react-router-dom'
+import ProfessorPage from './routes/ProfessorPage.jsx'
+import NotFound from './routes/NotFound.jsx'
+import Layout from './routes/Layout.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
 
-  return <>
-      <MainHeader/>
-    <main>
-      <LoginPage />
-    </main>
-  </>
-}
+  return (
+    <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route path='/profesores' element={<ProfessorPage/>}/>
+          <Route path='*' element={<NotFound/>}/>
+        </Route>
+      </Routes>
+  ) 
+} 
 
 export default App
