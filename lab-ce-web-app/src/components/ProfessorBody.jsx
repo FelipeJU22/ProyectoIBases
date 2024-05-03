@@ -6,27 +6,22 @@ function ProfessorBody() {
     //List with all the solicitudes that the students have sent
     const [solicitudes, setSolicitude] = useState([])
 
-    // useEffect(() => {
-    //     const requestOptions = {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({
-    //             correo: "betico@gmail.com",
-    //             contraseña: "beto1234"
-    //           })
-    //     };
+    useEffect(() => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        };
 
-    //     async function fetchPosts() {
-    //         const response = await fetch('http://localhost:5095/Ingreso/IngresoAdministrador', requestOptions)
-    //         const textData = await response.text();
-    //         //const resData = await response.json();
-    //         //console.log(resData);
-    //         console.log(textData); // Log the response data
-    //         //const resData = await JSON.parse(response); // Try parsing the response data
-    //     }
+        async function fetchPosts() {
+            const response = await fetch('http://localhost:5095/Profesor/SolicitudesPendientes?correoProfesor=jleiton@itcr.com', requestOptions)
+            //const textData = await response.text();
+            const resData = await response.json();
+            //const resData = await JSON.parse(response); // Try parsing the response data
+            console.log(resData[0].Tipo);
+        }
 
-    //     fetchPosts();
-    // }, [])
+        fetchPosts();
+    }, [])
 
     function newSolicHandler(event) {
         setSolicitude((currentSolics) => ["New Solicitude", ...currentSolics])
