@@ -1,33 +1,31 @@
 .app {
-display: flex;
-flex-direction: column;
-min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.main {
-display: flex;
-flex: 1;
-}
+
 
 .leftPanel {
-flex: 0 0 20%; /* Adjust the width of the left panel as needed */
-background-color: #f0f0f0;
+    flex: 0 0 20%;
+    /* Adjust the width of the left panel as needed */
+    background-color: #f0f0f0;
 }
 
 .body {
-min-width: 50rem;
-flex: 1;
-padding: 20px;
+    min-width: 50rem;
+    flex: 1;
+    padding: 20px;
 }
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
-.main {
-    flex-direction: column;
-}
+    .main {
+        flex-direction: column;
+    }
 
-.leftPanel {
-    flex: none;
-    width: 100%;
-}
+    .leftPanel {
+        flex: none;
+        width: 100%;
+    }
 }

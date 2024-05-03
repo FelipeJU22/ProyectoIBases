@@ -21,12 +21,13 @@ function App() {
     <Routes>
       <Route path='/' element={<Layout />}>
         {/*Public Routes*/}
+        <Route path='/' element={<Home />} />
         <Route path='register' element={<Register />} />
         <Route path='login-profesor' element={<LoginPage />} />
-        <Route path='/' element={<Home />} />
         <Route path='unauthorized' element={<Unauthorized />} />
-        <Route path='profesores' element={<ProfessorPage />} />
 
+        <Route path='profesores' element={<ProfessorPage />} />
+        <Route path='prestamo-activos' element={<ProfessorBody />} />
 
         {/* Private Routes */}
         <Route element={<RequireAuth allowedRoles={[100]} />}>

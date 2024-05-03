@@ -4,7 +4,7 @@ function ProfessorPanel() {
 
     return <>
         <ul>
-            <li>Préstamo de activos</li>
+            <Link to='/prestamo-activos'>Préstamo de activos</Link>
             <li>Reservar un laboratorio</li>
             <li>Cambiar contraseña</li>
             <Link to='/testing'> Cerrar Sesión </Link>
