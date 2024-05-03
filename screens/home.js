@@ -12,18 +12,20 @@ const HomeScreen = ({ navigation, route }) => {
     const [date, setDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showLabPickerModal, setShowLabPickerModal] = useState(false);
+    const [showInfoPickerModal, setShowInfoPickerModal] = useState(false);
     const [showTimePickerModal, setShowTimePickerModal] = useState(false);
     const [selectedTime, setSelectedTime] = useState(null);
     const [approve, setApprove] = useState(false);
     const [selectedLab, setSelectedLab] = useState(null);
+    const [capacidad, setCapacidad] = useState();
+    const [computadores, setCantidadComputadores] = useState();
 
-    const [solicitudes, setSolicitudes] = useState([]);
 
     const [prestamosList, setPrestamosList] = useState([]);
-
     const [laboratorios, setLaboratorios] = useState([]);
-
     const [horas, setHoras] = useState([]);
+    const [horasSinSolicitud, setHorasSinSolicitud] = useState([]);
+    const [loading, setLoading] = useState(true); // Nuevo estado para indicar si los datos están cargando
 
     const [availableTimes, setAvailableTimes] = useState( [
             "01:00:00",
@@ -53,10 +55,6 @@ const HomeScreen = ({ navigation, route }) => {
           ]
     )
 
-    const [horasSinSolicitud, setHorasSinSolicitud] = useState([]);
-    const [loading, setLoading] = useState(true); // Nuevo estado para indicar si los datos están cargando
-
-
     useEffect(() => {
         obtenerSolicitudes();
         obtenerLaboratoriosDisponibles();
@@ -71,7 +69,7 @@ const HomeScreen = ({ navigation, route }) => {
             obtenerHorasFiltradas();
         }
       }, [horas, loading]);
-
+    
     const obtenerSolicitudes = () => {
         db.transaction(tx => {
           tx.executeSql(
@@ -112,10 +110,6 @@ const HomeScreen = ({ navigation, route }) => {
     const obtenerHorasFiltradas = () => {
                 // Restar las horas disponibles de la lista availableTimes
         const filteredTimes = availableTimes.filter(time => !horas.includes(time));
-        console.log("LISTA HORAS:",horas);
-
-        console.log("HORAS FILTRADAS:",filteredTimes);
-        // Establecer las horas filtradas como las disponibles para mostrar al usuario
         setHorasSinSolicitud(filteredTimes);
     };
 
@@ -130,9 +124,6 @@ const HomeScreen = ({ navigation, route }) => {
                     for (let i = 0; i < results.rows.length; i++) {
                         horasDisponibles.push(results.rows.item(i).hora);
                     }
-                    console.log("FECHA:",date.toISOString().split('T')[0]);
-                    console.log("LAB:",selectedLab);
-                    // Ahora tienes la lista de horas disponibles en el día y laboratorio seleccionados
                     setHoras(horasDisponibles);
                     setLoading(false); // Indica que los datos ya no están cargando
                 },
@@ -142,6 +133,47 @@ const HomeScreen = ({ navigation, route }) => {
             );
         });
     };
+
+    const obtenerCapacidad = (nombreLab) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'SELECT capacidad FROM LABORATORIO WHERE nombre_lab = ?;',
+                [nombreLab],
+                (tx, results) => {
+                    if (results.rows.length > 0) {
+                        const capacidad = results.rows.item(0).capacidad;
+                        setCapacidad(capacidad);
+                    } else {
+                        console.warn('No se encontró información de capacidad para el laboratorio seleccionado');
+                    }
+                },
+                error => {
+                    console.error('Error al obtener la capacidad del laboratorio:', error);
+                }
+            );
+        });
+    };
+    
+    const obtenerCantidadComputadoras = (nombreLab) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                'SELECT computadores FROM LABORATORIO WHERE nombre_lab = ?;',
+                [nombreLab],
+                (tx, results) => {
+                    if (results.rows.length > 0) {
+                        const cantidadComputadoras = results.rows.item(0).computadores;
+                        setCantidadComputadores(cantidadComputadoras);
+                    } else {
+                        console.warn('No se encontró información de cantidad de computadoras para el laboratorio seleccionado');
+                    }
+                },
+                error => {
+                    console.error('Error al obtener la cantidad de computadoras del laboratorio:', error);
+                }
+            );
+        });
+    };
+
     const backLogin = () => {
         navigation.navigate('Login');
     };
@@ -156,7 +188,6 @@ const HomeScreen = ({ navigation, route }) => {
             setDate(currentDate);
             setShowDatePicker(false);
             setShowLabPickerModal(true);
-            // Aquí podrías realizar cualquier lógica adicional necesaria
         }
     };
 
@@ -165,6 +196,18 @@ const HomeScreen = ({ navigation, route }) => {
         setShowLabPickerModal(false);
         obtenerHorasFiltradas(date,lab);
         setShowTimePickerModal(true);
+    }
+
+    const handleCaracteristicas = (lab) => {
+        setShowLabPickerModal(false);
+        setShowInfoPickerModal(true);
+        obtenerCapacidad(lab);
+        obtenerCantidadComputadoras(lab);
+    }
+
+    const regresarLabs = () => {
+        setShowInfoPickerModal(false);
+        setShowLabPickerModal(true);
     }
 
     const handleTimePress = (time) => {
@@ -190,19 +233,16 @@ const HomeScreen = ({ navigation, route }) => {
         console.log('Hora seleccionada:', time);
     };
 
-
     const threeWeeksFromNow = new Date();
-    threeWeeksFromNow.setDate(threeWeeksFromNow.getDate() + 21); // Calcula la fecha tres semanas desde hoy
-
+    threeWeeksFromNow.setDate(threeWeeksFromNow.getDate() + 21); 
 
     const handleCheck = (idSolicitud) => {
         db.transaction(tx => {
           tx.executeSql(
             'UPDATE SOLICITUD_ACTIVO SET aprobado = ? WHERE id = ?;',
-            [1, idSolicitud], // Cambia el valor de "aprobado" a 1 para la solicitud con el id específico
+            [1, idSolicitud], 
             () => { 
               console.log(`Solicitud ${idSolicitud} aprobada exitosamente`);
-              // Aquí puedes realizar cualquier otra acción necesaria después de aprobar la solicitud
             },
             error => { console.error('Error al aprobar la solicitud:', error); }
           );
@@ -252,7 +292,7 @@ const HomeScreen = ({ navigation, route }) => {
                                             <TouchableOpacity onPress={() => handleLabPress(item)}>
                                                 <Text style={styles.column}>Laboratorio {item}</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity style={[styles.iconContainer, {marginRight:70}]}>
+                                            <TouchableOpacity style={[styles.iconContainer, {marginRight:70}]} onPress={() => handleCaracteristicas(item)}>
                                                     <Feather name="info" size={24} color="black" />
                                                 </TouchableOpacity>
                                         </View>
@@ -261,6 +301,26 @@ const HomeScreen = ({ navigation, route }) => {
                                     </ScrollView>
                                     <TouchableOpacity onPress={() => setShowLabPickerModal(false)}>
                                         <Text style={styles.modalClose2}>Cancelar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                        <Modal
+                            visible={showInfoPickerModal}
+                            animationType="slide"
+                            transparent={true}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalContent2}>
+                                    <View style={styles.header}>
+                                        <Text style={styles.headerText}>Características del laboratorio </Text>
+                                        
+                                    </View>
+                                    <Text style={[styles.item, {marginTop:10}]}>Capacidad: {capacidad}</Text>
+                                    <Text style={[styles.item, {marginBottom:20 }]}>Cantidad computadoras: {computadores}</Text>
+
+                                    <TouchableOpacity onPress={() => regresarLabs()}>
+                                        <Text style={styles.modalClose2}>Regresar</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
