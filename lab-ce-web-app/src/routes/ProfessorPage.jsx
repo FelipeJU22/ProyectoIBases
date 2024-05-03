@@ -5,15 +5,15 @@ import classes from './ProfessorPage.module.css'
 
 function ProfessroPage() {
 
-    return<>
+    return <>
         <section className={classes.app}>
-            <ProfessorHeader/>
+            <ProfessorHeader />
             <div className={classes.main}>
                 <div className={classes.leftPanel}>
-                    <ProfessorPanel/>
+                    <ProfessorPanel />
                 </div>
                 <div className={classes.body}>
-                    <ProfessorBody/>
+                    <ProfessorBody />
                 </div>
 
             </div>
