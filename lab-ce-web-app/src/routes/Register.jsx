@@ -3,7 +3,7 @@ import classes from './Register.module.css';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-
+import ProfessroPage from "./ProfessorPage";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -61,12 +61,7 @@ function Register() {
     return (
         <>
             {success ? (
-                <section>
-                    <h1>Cuenta creada correctamente</h1>
-                    <p>
-                        <Link to='/login-profesor'> Iniciar Sesión </Link>
-                    </p>
-                </section>
+                <ProfessroPage />
             ) : (
                 <section>
                     <p ref={errRef} className={errMsg ? classes.errmsg : classes.offscreen}>{errMsg}</p>

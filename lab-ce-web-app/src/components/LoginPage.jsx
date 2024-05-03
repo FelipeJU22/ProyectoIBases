@@ -1,8 +1,16 @@
 import classes from './LoginPage.module.css';
 import { useRef, useState, useEffect, useContext } from 'react';
-
+import useAuth from '../hooks/useAuth';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import AuthContext from '../context/AuthProvider';
 
 function LoginPage() {
+
+    let navigate = useNavigate();
+
+    const { setAuth } = useAuth();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/"
 
     const userRef = useRef();
     const errRef = useRef();
@@ -37,15 +45,18 @@ function LoginPage() {
                 })
             };
 
-            const response = await fetch('http://localhost:5095/Ingreso/IngresoAdministrador', requestOptions)
+            const response = await fetch('http://localhost:5095/Ingreso/IngresoProfesor', requestOptions)
             const textData = await response.text();
 
             if (response.status === 200) {
                 setResponseMsg(textData)
-                setSuccess(true);
+                //setSuccess(true);
                 console.log(response);
+                setAuth({ user, pwd });
                 setUser('');
                 setPwd('');
+                //navigate('/adwda')
+                navigate(from, { replace: true });
             } else {
                 setResponseMsg(textData)
                 setRetryLogin(true)
@@ -109,7 +120,7 @@ function LoginPage() {
                     <p>
                         No tiene cuenta?<br />
                         <span className="line">
-                            {/*put router link here*/}
+                            {/*Link para enrutar aqui*/}
                             <a href="#">Registrarse</a>
                         </span>
                     </p>
