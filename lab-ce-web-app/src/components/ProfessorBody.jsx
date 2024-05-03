@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
 function ProfessorBody() {
 
@@ -32,8 +33,14 @@ function ProfessorBody() {
         console.log(solicitudes)
     }
 
+    function noseHandler(e) {
+        <Navigate to="/testing" state={{ from: location }} replace />
+    }
+
     return <>
         <h2>Solicitudes para préstamo de activos</h2>
+
+        <button onClick={noseHandler}>MMEA</button>
 
         <button onClick={newSolicHandler}>Solicitud</button>
 

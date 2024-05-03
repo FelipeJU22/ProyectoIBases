@@ -10,6 +10,9 @@ import NotFound from './routes/NotFound.jsx'
 import Layout from './routes/Layout.jsx'
 import Register from './routes/Register.jsx'
 import RequireAuth from './components/RequireAuth.jsx'
+import ProfessorBody from './components/ProfessorBody.jsx'
+import Home from './routes/Home.jsx'
+import Unauthorized from './routes/Unauthorized.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -20,10 +23,22 @@ function App() {
         {/*Public Routes*/}
         <Route path='register' element={<Register />} />
         <Route path='login-profesor' element={<LoginPage />} />
+        <Route path='/' element={<Home />} />
+        <Route path='unauthorized' element={<Unauthorized />} />
+
+
         {/* Private Routes */}
-        <Route element={<RequireAuth />}>
-          <Route path='/profesores' element={<ProfessorPage />} />
+        <Route element={<RequireAuth allowedRoles={[100]} />}>
+          <Route path='profesores' element={<ProfessorPage />} />
         </Route>
+
+        <Route element={<RequireAuth allowedRoles={[101]} />}>
+          <Route path='testing' element={<ProfessorBody />} />
+        </Route>
+
+        {/* <Route element={<RequireAuth allowedRole={[100]} />}>
+        </Route> */}
+
         {/*Catches all other routes*/}
         <Route path='*' element={<NotFound />} />
       </Route>

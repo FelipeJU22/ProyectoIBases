@@ -1,16 +1,17 @@
 import classes from './LoginPage.module.css';
-import { useRef, useState, useEffect, useContext } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import AuthContext from '../context/AuthProvider';
 
 function LoginPage() {
 
-    let navigate = useNavigate();
+    const roles = [100];
 
     const { setAuth } = useAuth();
+
+    const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/"
+    const from = location.state?.from?.pathname || "/profesores"
 
     const userRef = useRef();
     const errRef = useRef();
@@ -34,7 +35,7 @@ function LoginPage() {
         e.preventDefault();
 
         try {
-            console.log(user, pwd)
+            console.log(user, pwd, roles)
 
             const requestOptions = {
                 method: 'POST',
@@ -48,14 +49,17 @@ function LoginPage() {
             const response = await fetch('http://localhost:5095/Ingreso/IngresoProfesor', requestOptions)
             const textData = await response.text();
 
+            console.log(from)
+
             if (response.status === 200) {
                 setResponseMsg(textData)
                 //setSuccess(true);
                 console.log(response);
-                setAuth({ user, pwd });
+                setAuth({ user, pwd, roles });
                 setUser('');
                 setPwd('');
                 //navigate('/adwda')
+                //navigate('/profesores');
                 navigate(from, { replace: true });
             } else {
                 setResponseMsg(textData)
@@ -72,61 +76,49 @@ function LoginPage() {
     }
 
     return (
-        <>
-            {success ? (
-                <section>
-                    <h1>{responseMsg}</h1>
-                    <br />
-                    <p>
-                        <a href="#">Ir a inicio</a>
-                    </p>
-                </section>
-            ) : (
-                <div>
-                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
-                    <h1>Iniciar Sesión</h1>
-                    <form onSubmit={handleSubmit} className={classes.form}>
-                        <p>
-                            <label htmlFor="username">Usuario</label>
-                            <input
-                                type="text"
-                                id="username"
-                                ref={userRef}
-                                required
-                                autoComplete='off'
-                                onChange={(e) => setUser(e.target.value)}
-                                value={user}
-                            />
-                        </p>
-                        <p>
-                            <label htmlFor="password">Contraseña</label>
-                            <input
-                                type="password"
-                                id="password"
-                                required
-                                value={pwd}
-                                onChange={(e) => setPwd(e.target.value)}
-                            />
-                        </p>
+        <div>
+            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
+            <h1>Iniciar Sesión</h1>
+            <form onSubmit={handleSubmit} className={classes.form}>
+                <p>
+                    <label htmlFor="username">Usuario</label>
+                    <input
+                        type="text"
+                        id="username"
+                        ref={userRef}
+                        required
+                        autoComplete='off'
+                        onChange={(e) => setUser(e.target.value)}
+                        value={user}
+                    />
+                </p>
+                <p>
+                    <label htmlFor="password">Contraseña</label>
+                    <input
+                        type="password"
+                        id="password"
+                        required
+                        value={pwd}
+                        onChange={(e) => setPwd(e.target.value)}
+                    />
+                </p>
 
-                        <p id="loginnote" className={retryLogin ? classes.instructions : classes.hide}>
-                            Usuario Incorrecto
-                        </p>
+                <p id="loginnote" className={retryLogin ? classes.instructions : classes.hide}>
+                    Usuario Incorrecto
+                </p>
 
-                        <p className={classes.actions}>
-                            <button>Ingresar</button>
-                        </p>
-                    </form>
-                    <p>
-                        No tiene cuenta?<br />
-                        <span className="line">
-                            {/*Link para enrutar aqui*/}
-                            <a href="#">Registrarse</a>
-                        </span>
-                    </p>
-                </div>
-            )}
-        </>
+                <p className={classes.actions}>
+                    <button>Ingresar</button>
+                </p>
+            </form>
+            <p>
+                No tiene cuenta?<br />
+                <span className="line">
+                    {/*Link para enrutar aqui*/}
+                    <a href="#">Registrarse</a>
+                </span>
+            </p>
+        </div>
     )
 }
 
