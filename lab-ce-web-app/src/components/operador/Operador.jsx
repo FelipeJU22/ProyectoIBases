@@ -5,10 +5,10 @@ import activeSrc from '../../img/activos.jpg';
 import profSrc from '../../img/prof.jpg';
 
 
-const Header = ({ adminName }) => {
+const Header = ({ opName }) => {
   return (
     <div className={classes.toptobottom}>
-      <h1>Bienvenido, {adminName}</h1>
+      <h1>Bienvenido, {opName}</h1>
     </div>
   );
 };
@@ -33,9 +33,9 @@ class Operador extends React.Component {
   render() {
     return (
       <div className={classes.mainadminpage}>
-        <Header adminName="Administrador" />
+        <Header opName="Operador" />
         <div className={classes.managementtools}>
-          <h1> Gestor de Laboratorios</h1>
+          <h1> Reservación de laboratorio</h1>
           <p> Permite gestionar toda la información de los laboratorios:
           </p>
           <p> -Nombre <br></br>
@@ -47,12 +47,12 @@ class Operador extends React.Component {
           <div className={classes.imagecontainer}>
         <img src={imageSrc} alt='None'/>
           </div>
-          <Button text="Ir a Laboratorios" Click={1} />
+          <Button text="Reservaciones" Click={1} />
         </div>
 
 
         <div className={classes.actmanagement}>
-          <h1> Gestor de Activos</h1>
+          <h1> Préstamo de activo a profesor</h1>
           <p> Permite gestionar toda la información de los activos:
           </p>
           <p> -Placa <br></br>
@@ -63,11 +63,11 @@ class Operador extends React.Component {
           <div className={classes.imagecontainer}>
         <img src={activeSrc} alt='None'/>
           </div>
-          <Button text="Ir a Activos" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <Button text="Ingresar" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
 
         <div className={classes.profmanagement}>
-          <h1> Gestor de Profesores</h1>
+          <h1> Préstamo de activo a estudiante</h1>
           <p> Permite dar de alta, modificar o eliminar profesores:
           </p>
           <p><br></br>
@@ -77,17 +77,17 @@ class Operador extends React.Component {
           <div className={classes.imagecontainer}>
         <img src={profSrc} alt='None'/>
           </div>
-          <Button text="Ir a Profesores" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <Button text="Ingresar" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
 
         <div className={classes.othermanagement}>
           <h1> Otros</h1>
-          <p> Otras funcionalidades de Administrador
+          <p> Otras funcionalidades de Operador
           </p>
           <p></p>
-        <Button text="Aprobación de operadores" onClick={() => this.handleToolButtonClick('labgestor')} />
+        <Button text="Devolución de activo" onClick={() => this.handleToolButtonClick('labgestor')} />
         <p></p>
-        <Button text="Reestablecer contrseñas" onClick={() => this.handleToolButtonClick('labgestor')} />
+        <Button text="Registro de averías" onClick={() => this.handleToolButtonClick('labgestor')} />
         <p></p>
         <Button text="Generador de reportes" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
