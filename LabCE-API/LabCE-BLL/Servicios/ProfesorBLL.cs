@@ -22,6 +22,18 @@ namespace LabCE_BLL.Servicios
             _profesorDALSQL = profesorDALSQL;
         }
 
+        public void CambiarContraseñaProfesorBLL(ProfesorDTO profesor)
+        {
+            try
+            {
+                _profesorDALSQL.CambiarContraseñaProfesor(profesor);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public List<ProfesorDTO> GetProfesorCredencialesBLL()
         {
             try

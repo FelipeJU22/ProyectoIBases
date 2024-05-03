@@ -10,22 +10,25 @@ using System.Threading.Tasks;
 
 namespace LabCE_BLL.Servicios
 {
-    public class SolicitudActivoBLL : ISolicitudActivoBLL
+    internal class ActivoBLL : IActivoBLL
     {
         private readonly IConfiguration _configuration;
-        private readonly SolicitudActivoDALSQL _solicitudActivoDALSQL;
-
-        public SolicitudActivoBLL(IConfiguration configuration, SolicitudActivoDALSQL solicitudActivoDALSQL)
+        private readonly ActivoDALSQL _activoDALSQL;
+        public ActivoBLL(IConfiguration configuration, ActivoDALSQL activoDALSQL)
         {
             _configuration = configuration;
-            _solicitudActivoDALSQL = solicitudActivoDALSQL;
+            _activoDALSQL = activoDALSQL;
         }
-
-        public void AprobarSolicitudActivoIdBLL(int id)
+        public List<ActivoInfoDTO> GetActivosInfoBLL()
         {
             try
             {
-                _solicitudActivoDALSQL.AprobarSolicitudActivoId(id);
+                var resultado = _activoDALSQL.GetActivosInfo();
+
+                if (resultado == null)
+                    return null;
+
+                return resultado;
             }
             catch (Exception ex)
             {

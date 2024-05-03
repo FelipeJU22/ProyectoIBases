@@ -15,6 +15,8 @@ namespace LabCE_DALSQL.Mapeo
         {
             CreateMap<Profesor, ProfesorDTO>();
             CreateMap<SolicitudActivo, SolicitudPendienteDTO>();
+            CreateMap<Laboratorio, LaboratorioDTO>();
+
         }
     }
 }

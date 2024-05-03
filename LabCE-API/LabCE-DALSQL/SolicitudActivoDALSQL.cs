@@ -21,12 +21,10 @@ namespace LabCE_DALSQL
             _configuration = configuration;
             _mapper = mapper;
         }
-        public List<SolicitudPendienteDTO> GetSolicitudesPendientes(string correoProfesor)
+        public void AprobarSolicitudActivoId(int id)
         {
             string baseDatos = _configuration.GetConnectionString("default");
-            string procedAlmacenado = "[solicitudes_pendientes]";
-
-            var solicitudes = new List<SolicitudPendienteDTO>();
+            string procedAlmacenado = "[aprobacion_activo]";
 
             try
             {
@@ -37,23 +35,9 @@ namespace LabCE_DALSQL
                     using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
                     {
                         comando.CommandType = CommandType.StoredProcedure;
-                        comando.Parameters.Add("@correo_profesor", SqlDbType.VarChar).Value = correoProfesor;
+                        comando.Parameters.Add("@id_solicitud", SqlDbType.Int).Value = id;
 
-                        using (IDataReader respuesta = comando.ExecuteReader())
-                        {
-                            while (respuesta.Read())
-                            {
-                                SolicitudPendienteDTO solicitud = new SolicitudPendienteDTO()
-                                {
-                                    NombreEstudiante = respuesta["nombre_estudiante"].ToString(),
-                                    Apellido1Estudiante = respuesta["apellido1_estudiante"].ToString(),
-                                    Apellido2Estudiante = respuesta["apellido2_estudiante"].ToString(),
-                                    Tipo = respuesta["tipo"].ToString(),
-                                    IdActivo = int.Parse(respuesta["id"].ToString())
-                                };
-                                solicitudes.Add(solicitud);
-                            }
-                        }
+                        comando.ExecuteNonQuery();
                     }
                 }
             }
@@ -61,8 +45,7 @@ namespace LabCE_DALSQL
             {
                 throw;
             }
-
-            return solicitudes;
         }
+
     }
 }

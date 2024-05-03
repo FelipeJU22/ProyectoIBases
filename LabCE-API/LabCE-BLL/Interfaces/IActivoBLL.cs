@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace LabCE_BLL.Interfaces
 {
-    public interface ISolicitudActivoBLL
+    public interface IActivoBLL
     {
-        public void AprobarSolicitudActivoIdBLL(int id);
+        public List<ActivoInfoDTO> GetActivosInfoBLL();
+
     }
 }

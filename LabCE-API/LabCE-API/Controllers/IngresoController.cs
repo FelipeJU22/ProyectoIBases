@@ -14,6 +14,11 @@ namespace LabCE_API.Controllers
             _seguridadBLL = seguridadBLL;
         }
 
+        /// <summary>
+        /// retorna true o false si existe un operador con las credenciales dadas
+        /// </summary>
+        /// <param name="usuario"> objeto con atributos correo y contraseña </param>
+        /// <returns></returns>
         [HttpPost]
         [Route("IngresoOperador")]
         public IActionResult IngresoOperador([FromBody]UsuarioDTO usuario)
@@ -26,6 +31,11 @@ namespace LabCE_API.Controllers
                 return Unauthorized("No se encontró el operador");
         }
 
+        /// <summary>
+        /// retorna true o false si existe un administrador con las credenciales dadas
+        /// </summary>
+        /// <param name="usuario">objeto con atributos correo y contraseña</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("IngresoAdministrador")]
         public IActionResult IngresoAdministrador([FromBody] UsuarioDTO usuario)
@@ -37,6 +47,11 @@ namespace LabCE_API.Controllers
                 return Unauthorized("No se encontró el administrador");
         }
 
+        /// <summary>
+        /// retorna true o false si existe un profesor con las credenciales dadas
+        /// </summary>
+        /// <param name="usuario">objeto con atributos correo y contraseña</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("IngresoProfesor")]
         public IActionResult IngresoProfesor([FromBody] UsuarioDTO usuario)

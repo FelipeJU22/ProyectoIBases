@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LabCE_MODEL.Modelos
+namespace LabCE_MODEL.DTOs
 {
-    public class AdministracionLaboratorios
+    public class FacilidadDTO
     {
-        public string CorreoAdministrador { get; set; }
         public string NombreLab { get; set; }
-
+        public string NombreFacilidad { get; set; }
     }
 }

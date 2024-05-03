@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace LabCE_MODEL.Modelos
 {
-    public class AdministracionLaboratorios
+    public class Horario
     {
-        public string CorreoAdministrador { get; set; }
-        public string NombreLab { get; set; }
-
+        public string Fecha { get; set; }
+        public string HoraApertura { get; set; }
+        public string HoraCierre { get; set; }
     }
 }

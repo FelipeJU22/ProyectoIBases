@@ -60,9 +60,9 @@ namespace LabCE_DALSQL
             {
                 throw;
             }
-            List<ProfesorDTO> profesoresDTO = profesores.Select(p => _mapper.Map<ProfesorDTO>(p)).ToList();
+            List<ProfesorDTO> profesoresDTOs = profesores.Select(p => _mapper.Map<ProfesorDTO>(p)).ToList();
 
-            return profesoresDTO;
+            return profesoresDTOs;
         }
 
         public List<SolicitudPendienteDTO> GetSolicitudesPendientes(string correoProfesor)
@@ -109,5 +109,31 @@ namespace LabCE_DALSQL
             return solicitudes;
         }
 
+        public void CambiarContraseñaProfesor(ProfesorDTO profesor)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[cambiar_password_profesor]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correo_profesor", SqlDbType.VarChar).Value = profesor.Correo;
+                        comando.Parameters.Add("@nuevo_password", SqlDbType.VarChar).Value = profesor.Password;
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
