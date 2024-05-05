@@ -19,6 +19,7 @@ namespace LabCE_BLL.Interfaces
         public void ModificarSegundoApellidoBLL(string correoProfesor, string apellido);
         public void ModificarCorreoBLL(string correoActual, string correoNuevo);
         public void ModificarCedulaProfesorBLL(string correo, string cedula);
+        public void ModificarFechaNacimientoBLL(string correo, string fecha);
 
     }
 }

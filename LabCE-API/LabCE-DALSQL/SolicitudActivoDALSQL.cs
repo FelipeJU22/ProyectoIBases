@@ -95,6 +95,88 @@ namespace LabCE_DALSQL
             }
             return prestamos;
         }
+        public void EliminarSolicitudActivoId(int id)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[eliminar_solicitud_activo]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@id", SqlDbType.Int).Value = id;
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void AgregarSolicitudActivo(SolicitudActivoDTO solicitud)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[solicitud_activos]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correo_estud", SqlDbType.VarChar).Value = solicitud.CorreoEstudiante;
+                        comando.Parameters.Add("@nombre_estud", SqlDbType.VarChar).Value = solicitud.NombreEstudiante;
+                        comando.Parameters.Add("@apellido1_estud", SqlDbType.VarChar).Value = solicitud.Apellido1Estudiante;
+                        comando.Parameters.Add("@apellido2_estud", SqlDbType.VarChar).Value = solicitud.Apellido2Estudiante;
+                        comando.Parameters.Add("@placa_activo", SqlDbType.VarChar).Value = solicitud.PlacaActivo;
+                        comando.Parameters.Add("@correo_profesor", SqlDbType.VarChar).Value = solicitud.CorreoProfesor;
+                        comando.Parameters.Add("@correo_operador", SqlDbType.VarChar).Value = solicitud.CorreoOperador;
+
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public void FinalizarPrestamo(int id)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[finalizar_prestamo_activo]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@id_prestamo", SqlDbType.Int).Value = id;
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

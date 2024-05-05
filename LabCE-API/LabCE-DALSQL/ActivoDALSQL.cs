@@ -172,8 +172,5 @@ namespace LabCE_DALSQL
                 throw;
             }
         }
-
-
-
     }
 }

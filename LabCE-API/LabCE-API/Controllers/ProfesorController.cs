@@ -186,5 +186,27 @@ namespace LabCE_API.Controllers
             }
             return Ok();
         }
+        
+        /// <summary>
+        /// Busca un profesor por su correo y modifica su fecha de nacimiento
+        /// </summary>
+        /// <param name="correo"></param>
+        /// <param name="fecha"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("ModificarFechaNacimiento")]
+        public IActionResult ModificarFechaNacimiento(string correo, string fecha)
+        {
+            try
+            {
+                _profesorBLL.ModificarFechaNacimientoBLL(correo, fecha);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Ok();
+        }
+
     }
 }

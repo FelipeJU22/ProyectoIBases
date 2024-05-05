@@ -23,7 +23,15 @@ namespace LabCE_BLL
             services.AddSingleton<IFacilidadBLL, FacilidadBLL>();
             services.AddSingleton<IActivoBLL, ActivoBLL>();
             services.AddSingleton<ITipoActivoBLL, TipoActivoBLL>();
+            services.AddSingleton<IHorarioBLL, HorarioBLL>();
+            services.AddSingleton<IPrestamoLabBLL, PrestamoLabBLL>();
+            services.AddSingleton<IRegistroAveriaBLL, RegistroAveriaBLL>();
+            services.AddSingleton<IRegistroOperadorBLL, RegistroOperadorBLL>();
 
+            services.AddSingleton<RegistroOperadorDALSQL>();
+            services.AddSingleton<RegistroAveriaDALSQL>();
+            services.AddSingleton<PrestamoLabDALSQL>();
+            services.AddSingleton<HorarioDALSQL>();
             services.AddSingleton<ActivoDALSQL>();    
             services.AddSingleton<ProfesorDALSQL>();
             services.AddSingleton<SolicitudActivoDALSQL>();

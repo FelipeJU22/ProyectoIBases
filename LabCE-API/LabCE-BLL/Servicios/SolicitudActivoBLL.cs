@@ -21,11 +21,47 @@ namespace LabCE_BLL.Servicios
             _solicitudActivoDALSQL = solicitudActivoDALSQL;
         }
 
+        public void AgregarSolicitudActivoBLL(SolicitudActivoDTO solicitud)
+        {
+            try
+            {
+                _solicitudActivoDALSQL.AgregarSolicitudActivo(solicitud);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public void AprobarSolicitudActivoIdBLL(int id)
         {
             try
             {
                 _solicitudActivoDALSQL.AprobarSolicitudActivoId(id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void EliminarSolicitudActivoIdBLL(int id)
+        {
+            try
+            {
+                _solicitudActivoDALSQL.EliminarSolicitudActivoId(id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void FinalizarPrestamoBLL(int id)
+        {
+            try
+            {
+                _solicitudActivoDALSQL.FinalizarPrestamo(id);
             }
             catch (Exception ex)
             {

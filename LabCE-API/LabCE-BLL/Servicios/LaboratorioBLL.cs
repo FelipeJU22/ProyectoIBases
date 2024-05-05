@@ -22,6 +22,18 @@ namespace LabCE_BLL.Servicios
             _laboratorioDALSQL = laboratorioDALSQL;
         }
 
+        public void AgregarLaboratorioBLL(string nombreLab, int capacidad, int computadores)
+        {
+            try
+            {
+                _laboratorioDALSQL.AgregarLaboratorio(nombreLab, capacidad, computadores);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public void ApartarLaboratorioProfesorBLL(ApartadoLaboratorioDTO apartado)
         {
             try
@@ -127,6 +139,23 @@ namespace LabCE_BLL.Servicios
                 throw;
             }
 
+        }
+
+        public List<string> GetNombreLabsDisponiblesBLL()
+        {
+            try
+            {
+                var resultado = _laboratorioDALSQL.GetNombreLabsDisponibles();
+
+                if (resultado == null)
+                    return null;
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public void ModificarCapacidadBLL(string nombreLab, int capacidad)

@@ -165,6 +165,39 @@ namespace LabCE_API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Retorna lista de nombres de laboratorios disponibles
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("MostrarNombreLabsDisponibles")]
+        public IActionResult MostrarNombreLabsDisponibles()
+        {
+            var resultado = _laboratorioBLL.GetNombreLabsDisponiblesBLL();
+            return Ok(resultado);
+        }
+
+        /// <summary>
+        /// Agrega un nuevo laboratorio a la base de datos
+        /// </summary>
+        /// <param name="nombre"></param>
+        /// <param name="capacidad"></param>
+        /// <param name="computadores"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("AgregarLaboratorio")]
+        public IActionResult AgregarLaboratorio(string nombre, int capacidad, int computadores)
+        {
+            try
+            {
+                _laboratorioBLL.AgregarLaboratorioBLL(nombre, capacidad, computadores);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Ok();
+        }
 
     }
 }

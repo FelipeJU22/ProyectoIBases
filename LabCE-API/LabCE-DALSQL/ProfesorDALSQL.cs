@@ -310,7 +310,7 @@ namespace LabCE_DALSQL
             }
         }
 
-        public void ModificarFechaNacimiento(string correo, string cedula)
+        public void ModificarFechaNacimiento(string correo, string fecha)
         {
             string baseDatos = _configuration.GetConnectionString("default");
             string procedAlmacenado = "[cambiar_fecha_nacimiento_profesor]";
@@ -325,7 +325,7 @@ namespace LabCE_DALSQL
                     {
                         comando.CommandType = CommandType.StoredProcedure;
                         comando.Parameters.Add("@correor_profesor", SqlDbType.VarChar).Value = correo;
-                        comando.Parameters.Add("@nuevo_num_cedula", SqlDbType.VarChar).Value = cedula;
+                        comando.Parameters.Add(new SqlParameter("@nueva_fecha_nacimiento", DateTime.Parse(fecha)));
 
 
                         comando.ExecuteNonQuery();

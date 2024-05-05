@@ -341,5 +341,72 @@ namespace LabCE_DALSQL
                 throw;
             }
         }
+
+        public List<string> GetNombreLabsDisponibles()
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[mostrar_labs_disponibles]";
+
+            List<string> labs = new List<string>();
+
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+
+                        using (IDataReader respuesta = comando.ExecuteReader())
+                        {
+                            while (respuesta.Read())
+                            {
+                                string lab = respuesta["nombre"].ToString();
+                                labs.Add(lab);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return labs;
+
+        }
+
+        public void AgregarLaboratorio(string nombreLab, int capacidad, int computadores)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[agregar_laboratorio]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@nombre", SqlDbType.VarChar).Value = nombreLab;
+                        comando.Parameters.Add("@capacidad", SqlDbType.Int).Value = capacidad;
+                        comando.Parameters.Add("@computadores", SqlDbType.Int).Value = computadores;
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

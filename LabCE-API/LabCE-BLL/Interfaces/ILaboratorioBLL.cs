@@ -16,9 +16,11 @@ namespace LabCE_BLL.Interfaces
         public void ApartarLaboratorioProfesorBLL(ApartadoLaboratorioDTO apartado);
         public List<ActivoLabDTO> GetActivosLabBLL(string nombreLab);
         public int GetCantActivosLabBLL(string nombreLab);
-
         public void CambiarNombreLabBLL(string nombreActual, string nombreNuevo);
         public void ModificarCapacidadBLL(string nombreLab, int capacidad);
         public void ModificarComputadoresBLL(string nombreLab, int computadores);
+        public List<string> GetNombreLabsDisponiblesBLL();
+        public void AgregarLaboratorioBLL(string nombreLab, int capacidad, int computadores);
+
     }
 }

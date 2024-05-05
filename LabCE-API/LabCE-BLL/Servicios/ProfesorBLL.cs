@@ -103,6 +103,18 @@ namespace LabCE_BLL.Servicios
             }
         }
 
+        public void ModificarFechaNacimientoBLL(string correo, string fecha)
+        {
+            try
+            {
+                _profesorDALSQL.ModificarFechaNacimiento(correo, fecha);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public void ModificarNombreBLL(string correoProfesor, string nuevoNombre)
         {
             try

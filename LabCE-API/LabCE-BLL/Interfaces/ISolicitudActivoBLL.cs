@@ -11,6 +11,9 @@ namespace LabCE_BLL.Interfaces
     {
         public void AprobarSolicitudActivoIdBLL(int id);
         public List<PrestamoActivoDTO> GetPrestamosActivoBLL(string placa);
+        public void EliminarSolicitudActivoIdBLL(int id);
+        public void AgregarSolicitudActivoBLL(SolicitudActivoDTO solicitud);
+        public void FinalizarPrestamoBLL(int id);
 
     }
 }
