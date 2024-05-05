@@ -27,6 +27,8 @@ import Prestamoest from './components/operador/Prestamoest.jsx'
 import Devolucionact from './components/operador/Devolucionact.jsx'
 import Regaverias from './components/operador/Regaverias.jsx'
 import Reportsop from './components/operador/Reportsop.jsx'
+import NewPasswordView from './components/NewPasswordView.jsx'
+import Labs from './components/Labs.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -41,24 +43,23 @@ function App() {
         <Route path='unauthorized' element={<Unauthorized />} />
         <Route path='profesores' element={<ProfessorPage />} />
         <Route path='/admin' element={<MainAdminPage />} />
-        <Route path='/admin/labmg' element={<Labmg/>} />
-        <Route path='/admin/actmg' element={<Actmg/>} />
-        <Route path='/admin/profmg' element={<Profmg/>} />
-        <Route path='/admin/opap' element={<Opap/>} />
-        <Route path='/admin/password' element={<Password/>} />
-        <Route path='/admin/reports' element={<Reports/>} />
-        <Route path='/operador' element={<Operador/>} />
-        <Route path='/operador/labrsv' element={<Labrsv/>} />
-        <Route path='/operador/prestamopf' element={<Prestamopf/>} />
-        <Route path='/operador/prestamoest' element={<Prestamoest/>} />
-        <Route path='/operador/devolucionact' element={<Devolucionact/>} />
-        <Route path='/operador/regaverias' element={<Regaverias/>} />
-        <Route path='/operador/reportes' element={<Reportsop/>} />
+        <Route path='/admin/labmg' element={<Labmg />} />
+        <Route path='/admin/actmg' element={<Actmg />} />
+        <Route path='/admin/profmg' element={<Profmg />} />
+        <Route path='/admin/opap' element={<Opap />} />
+        <Route path='/admin/password' element={<Password />} />
+        <Route path='/admin/reports' element={<Reports />} />
+        <Route path='/operador' element={<Operador />} />
+        <Route path='/operador/labrsv' element={<Labrsv />} />
+        <Route path='/operador/prestamopf' element={<Prestamopf />} />
+        <Route path='/operador/prestamoest' element={<Prestamoest />} />
+        <Route path='/operador/devolucionact' element={<Devolucionact />} />
+        <Route path='/operador/regaverias' element={<Regaverias />} />
+        <Route path='/operador/reportes' element={<Reportsop />} />
 
-
-
-
-
+        <Route path='prestamo-activos' element={<ProfessorBody />} />
+        <Route path='cambiar-clave' element={<NewPasswordView />} />
+        <Route path='reserva-lab' element={<Labs />} />
 
 
         {/* Private Routes */}
