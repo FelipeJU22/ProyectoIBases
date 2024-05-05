@@ -22,12 +22,14 @@ namespace LabCE_BLL
             services.AddSingleton<ILaboratorioBLL, LaboratorioBLL>();
             services.AddSingleton<IFacilidadBLL, FacilidadBLL>();
             services.AddSingleton<IActivoBLL, ActivoBLL>();
+            services.AddSingleton<ITipoActivoBLL, TipoActivoBLL>();
 
             services.AddSingleton<ActivoDALSQL>();    
             services.AddSingleton<ProfesorDALSQL>();
             services.AddSingleton<SolicitudActivoDALSQL>();
             services.AddSingleton<LaboratorioDALSQL>();
             services.AddSingleton<FacilidadDALSQL>();
+            services.AddSingleton<TipoActivoDALSQL>();
 
             services.AddAutoMapper(typeof(PerfilesMapeo));
 

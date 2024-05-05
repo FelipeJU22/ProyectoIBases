@@ -10,5 +10,7 @@ namespace LabCE_BLL.Interfaces
     public interface ISolicitudActivoBLL
     {
         public void AprobarSolicitudActivoIdBLL(int id);
+        public List<PrestamoActivoDTO> GetPrestamosActivoBLL(string placa);
+
     }
 }

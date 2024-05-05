@@ -13,6 +13,12 @@ namespace LabCE_BLL.Interfaces
         public List<ProfesorDTO> GetProfesorCredencialesBLL();
         public List<SolicitudPendienteDTO> GetSolicitudesPendientesBLL(string correo);
         public void CambiarContraseñaProfesorBLL(ProfesorDTO profesor);
+        public void AgregarProfesorBLL(Profesor profesor);
+        public void ModificarNombreBLL(string correoProfesor, string nuevoNombre);
+        public void ModificarPrimerApellidoBLL(string correoProfesor, string apellido);
+        public void ModificarSegundoApellidoBLL(string correoProfesor, string apellido);
+        public void ModificarCorreoBLL(string correoActual, string correoNuevo);
+        public void ModificarCedulaProfesorBLL(string correo, string cedula);
 
     }
 }

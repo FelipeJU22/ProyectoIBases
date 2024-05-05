@@ -37,5 +37,32 @@ namespace LabCE_API.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("AprobarSolicitudActivoId")]
+        public IActionResult GetPrestamosActivo(string placa)
+        {
+            try
+            {
+                _solicitudActivoBLL.GetPrestamosActivoBLL(placa);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Ok();
+        }
+
+        /// <summary>
+        /// Retorna los prestamos que han sido aprobados de un activo de placa especificada
+        /// </summary>
+        /// <param name="placa">placa del activo</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("MostrarPrestamosActivo")]
+        public IActionResult MostrarPrestamosActivo(string placa)
+        {
+            var resultado = _solicitudActivoBLL.GetPrestamosActivoBLL(placa);
+            return Ok(resultado);
+        }
     }
 }

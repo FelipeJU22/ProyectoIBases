@@ -135,5 +135,208 @@ namespace LabCE_DALSQL
                 throw;
             }
         }
+
+        public void AgregarProfesor(Profesor profesor)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[agregar_profesor]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correo", SqlDbType.VarChar).Value = profesor.Correo;
+                        comando.Parameters.Add("@num_cedula", SqlDbType.VarChar).Value = profesor.Cedula;
+                        comando.Parameters.Add("@password", SqlDbType.VarChar).Value = profesor.Password;
+                        comando.Parameters.Add("@nombre", SqlDbType.VarChar).Value = profesor.Nombre;
+                        comando.Parameters.Add("@apellido1", SqlDbType.VarChar).Value = profesor.Apellido1;
+                        comando.Parameters.Add("@apellido2", SqlDbType.VarChar).Value = profesor.Apellido2;
+                        comando.Parameters.Add(new SqlParameter("@fecha_nacimiento", DateTime.Parse(profesor.FechaNacimiento)));
+                        comando.Parameters.Add("@correo_administrador", SqlDbType.VarChar).Value = profesor.CorreoAdministrador;
+
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarNombre(string correoProfesor, string nuevoNombre)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[cambiar_nombre_profesor]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correor_profesor", SqlDbType.VarChar).Value = correoProfesor;
+                        comando.Parameters.Add("@nuevo_nombre", SqlDbType.VarChar).Value = nuevoNombre;
+
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarPrimerApellido(string correoProfesor, string apellido)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[cambiar_apellido1_profesor]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correor_profesor", SqlDbType.VarChar).Value = correoProfesor;
+                        comando.Parameters.Add("@nuevo_apellido1", SqlDbType.VarChar).Value = apellido;
+
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarSegundoApellido(string correoProfesor, string apellido)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[cambiar_apellido2_profesor]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correor_profesor", SqlDbType.VarChar).Value = correoProfesor;
+                        comando.Parameters.Add("@nuevo_apellido2", SqlDbType.VarChar).Value = apellido;
+
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarCorreo(string correoActual, string correoNuevo)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[cambiar_correo_profesor]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correor_profesor_viejo", SqlDbType.VarChar).Value = correoActual;
+                        comando.Parameters.Add("@correor_profesor_nuevo", SqlDbType.VarChar).Value = correoNuevo;
+
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarCedulaProfesor(string correo, string cedula)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[cambiar_num_cedula_profesor]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correor_profesor", SqlDbType.VarChar).Value = correo;
+                        comando.Parameters.Add("@nuevo_num_cedula", SqlDbType.VarChar).Value = cedula;
+
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarFechaNacimiento(string correo, string cedula)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[cambiar_fecha_nacimiento_profesor]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correor_profesor", SqlDbType.VarChar).Value = correo;
+                        comando.Parameters.Add("@nuevo_num_cedula", SqlDbType.VarChar).Value = cedula;
+
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

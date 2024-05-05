@@ -22,6 +22,18 @@ namespace LabCE_BLL.Servicios
             _profesorDALSQL = profesorDALSQL;
         }
 
+        public void AgregarProfesorBLL(Profesor profesor)
+        {
+            try
+            {
+                _profesorDALSQL.AgregarProfesor(profesor);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public void CambiarContraseñaProfesorBLL(ProfesorDTO profesor)
         {
             try
@@ -67,5 +79,64 @@ namespace LabCE_BLL.Servicios
             }
         }
 
+        public void ModificarCedulaProfesorBLL(string correo, string cedula)
+        {
+            try
+            {
+                _profesorDALSQL.ModificarCedulaProfesor(correo, cedula);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarCorreoBLL(string correoActual, string correoNuevo)
+        {
+            try
+            {
+                _profesorDALSQL.ModificarCorreo(correoActual, correoNuevo);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarNombreBLL(string correoProfesor, string nuevoNombre)
+        {
+            try
+            {
+                _profesorDALSQL.ModificarNombre(correoProfesor, nuevoNombre);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarPrimerApellidoBLL(string correoProfesor, string apellido)
+        {
+            try
+            {
+                _profesorDALSQL.ModificarPrimerApellido(correoProfesor, apellido);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarSegundoApellidoBLL(string correoProfesor, string apellido)
+        {
+            try
+            {
+                _profesorDALSQL.ModificarSegundoApellido(correoProfesor, apellido);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

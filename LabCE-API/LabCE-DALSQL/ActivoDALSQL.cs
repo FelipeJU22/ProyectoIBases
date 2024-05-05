@@ -64,5 +64,116 @@ namespace LabCE_DALSQL
             }
             return activos;
         }
+
+        public void ModificarPlaca(string placaActual, string placaNueva)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[modificar_placa_activo]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@placa_vieja", SqlDbType.VarChar).Value = placaActual;
+                        comando.Parameters.Add("@placa_nueva", SqlDbType.VarChar).Value = placaNueva;
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarTipo(string placa, string nuevoTipo)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[modificar_tipo_activo]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@placa_activo", SqlDbType.VarChar).Value = placa;
+                        comando.Parameters.Add("@nuevo_tipo", SqlDbType.VarChar).Value = nuevoTipo;
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarMarca(string placa, string nuevaMarca)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[modificar_marca_activo]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@placa_activo", SqlDbType.VarChar).Value = placa;
+                        comando.Parameters.Add("@marca", SqlDbType.VarChar).Value = nuevaMarca;
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarFechaCompra(string placa, string fecha)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[modificar_fecha_compra_activo]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@placa_activo", SqlDbType.VarChar).Value = placa;
+                        comando.Parameters.Add(new SqlParameter("@fecha", DateTime.Parse(fecha)));
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+
     }
 }

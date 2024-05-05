@@ -5,12 +5,13 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LabCE_BLL.Servicios
 {
-    internal class ActivoBLL : IActivoBLL
+    public class ActivoBLL : IActivoBLL
     {
         private readonly IConfiguration _configuration;
         private readonly ActivoDALSQL _activoDALSQL;
@@ -19,6 +20,7 @@ namespace LabCE_BLL.Servicios
             _configuration = configuration;
             _activoDALSQL = activoDALSQL;
         }
+
         public List<ActivoInfoDTO> GetActivosInfoBLL()
         {
             try
@@ -31,6 +33,54 @@ namespace LabCE_BLL.Servicios
                 return resultado;
             }
             catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void ModificarFechaCompraBLL(string placa, string fecha)
+        {
+            try
+            {
+                _activoDALSQL.ModificarFechaCompra(placa, fecha);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void ModificarMarcaBLL(string placa, string nuevaMarca)
+        {
+            try
+            {
+                _activoDALSQL.ModificarTipo(placa, nuevaMarca);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void ModificarPlacaBLL(string placaActual, string placaNueva)
+        {
+            try
+            {
+                _activoDALSQL.ModificarPlaca(placaActual, placaNueva);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void ModificarTipoBLL(string placa, string nuevoTipo)
+        {
+            try
+            {
+                _activoDALSQL.ModificarTipo(placa, nuevoTipo);
+            }
+            catch
             {
                 throw;
             }

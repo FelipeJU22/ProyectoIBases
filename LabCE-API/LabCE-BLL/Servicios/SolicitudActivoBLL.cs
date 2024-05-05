@@ -32,5 +32,22 @@ namespace LabCE_BLL.Servicios
                 throw;
             }
         }
+
+        public List<PrestamoActivoDTO> GetPrestamosActivoBLL(string placa)
+        {
+            try
+            {
+                var resultado = _solicitudActivoDALSQL.GetPrestamosActivo(placa);
+
+                if (resultado == null)
+                    return null;
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

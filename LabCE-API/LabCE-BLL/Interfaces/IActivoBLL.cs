@@ -10,6 +10,10 @@ namespace LabCE_BLL.Interfaces
     public interface IActivoBLL
     {
         public List<ActivoInfoDTO> GetActivosInfoBLL();
+        public void ModificarPlacaBLL(string placaActual, string placaNueva);
+        public void ModificarTipoBLL(string placa, string nuevoTipo);
+        public void ModificarMarcaBLL(string placa, string nuevaMarca);
+        public void ModificarFechaCompraBLL(string placa, string fecha);
 
     }
 }
