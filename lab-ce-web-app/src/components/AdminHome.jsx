@@ -3,6 +3,7 @@ import classes from './AdminHome.module.css'; // Import CSS file for styling
 import imageSrc from '../img/lab.jpg';
 import activeSrc from '../img/activos.jpg';
 import profSrc from '../img/prof.jpg';
+import { useLocation, Navigate, Outlet } from "react-router-dom";
 
 
 const Header = ({ adminName }) => {
@@ -15,7 +16,8 @@ const Header = ({ adminName }) => {
 
 const enroute = (text) => {
   if(text == 1){
-    console.log('Button clicked!', {text});
+    <Navigate to="/admin/labmg"/>
+    console.log(1)
   }
   
 
@@ -90,6 +92,8 @@ class MainAdminPage extends React.Component {
         <Button text="Reestablecer contrseñas" onClick={() => this.handleToolButtonClick('labgestor')} />
         <p></p>
         <Button text="Generador de reportes" onClick={() => this.handleToolButtonClick('labgestor')} />
+        <p></p>
+        <Button text="Cerrar sesión" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
         
         

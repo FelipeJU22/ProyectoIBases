@@ -8,7 +8,7 @@ import profSrc from '../img/prof.jpg';
 const Header = ({ adminName }) => {
   return (
     <div className={classes.toptobottom}>
-      <h1>Solicitudes de registro</h1>
+      <h1>Aprobación de Operadores</h1>
     </div>
   );
 };
@@ -35,35 +35,14 @@ class Opap extends React.Component {
       <div className={classes.mainadminpage}>
         <Header adminName="Administrador" />
         <div className={classes.managementtools}>
-          <h1> Laboratorio de mediciones</h1>
-          <h2> Capacidad {"10"} personas</h2>
-          <h2> Posee {10} computadores</h2>
-          <h2> Posee {2} facilidades</h2>
-          <h2> Posee {5} activos</h2>
-          <Button text="Ampliar información" Click={1} />
+          <h1> Solicitudes</h1>
+          <h2> Existen {4} solicitudes </h2>
+          <Button text="Aceptar todas" Click={1} />
+          <Button text="Gestionar" Click={1} />
+          <Button text="Volver al Menú" Click={1} />
         </div>
-        <div className={classes.actmanagement}>
-          <h1> Laboratorio de computadores 1</h1>
-          <h2> Capacidad {"10"} </h2>
-          <h2> Posee {10} computadores</h2>
-          <h2> Posee {2} facilidades</h2>
-          <h2> Posee {5} activos</h2>
-          <Button text="Ampliar información" Click={1} />
-        </div>
-        <div className={classes.profmanagement}>
-          <h1> Laboratorio de mediciones</h1>
-          <h2> Capacidad {"10"} personas</h2>
-          <h2> Posee {10} computadores</h2>
-          <h2> Posee {2} facilidades</h2>
-          <h2> Posee {5} activos</h2>
-          <Button text="Ampliar información" Click={1} />
-        </div>
-        <div className={classes.othermanagement}>
-          <h1> Otros</h1>
-          <Button text="Página principal" Click={1} />
-          <Button text="Gestor de Laboratorios" Click={1} />
-          <Button text="Gestor de profesores" Click={1} />
-          <Button text="Cerrar sesión" Click={1} />
+        <div className={classes.moreinfo}>
+          
         </div>
 
 

@@ -1,8 +1,6 @@
 import React from 'react';
-import classes from './AdminHome.module.css'; // Import CSS file for styling
-import imageSrc from '../img/lab.jpg';
-import activeSrc from '../img/activos.jpg';
-import profSrc from '../img/prof.jpg';
+import classes from '../AdminHome.module.css'; // Import CSS file for styling
+
 
 
 const Header = ({ adminName }) => {
@@ -27,7 +25,7 @@ const Button = ({ text, Click }) => {
   );
 };
 
-class Reports extends React.Component {
+class Reportsop extends React.Component {
   
 
   render() {
@@ -45,4 +43,4 @@ class Reports extends React.Component {
   }
 }
 
-export default Reports;
+export default Reportsop;

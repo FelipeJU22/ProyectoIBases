@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
-import classes from './AdminHome.module.css'; // Import CSS file for styling
-import imageSrc from '../img/lab.jpg';
-import activeSrc from '../img/activos.jpg';
-import profSrc from '../img/prof.jpg';
+import classes from '../AdminHome.module.css'; // Import CSS file for styling
+
 
 
 const Header = ({ adminName }) => {
   return (
     <div className={classes.toptobottom}>
-      <h1>Gestor de Laboratorios de {adminName}</h1>
+      <h1>Reservar un laboratorio</h1>
     </div>
   );
 };
@@ -31,7 +29,7 @@ const Button = ({ text, Click }) => {
   );
 };
 
-const Labmg = () => {
+const Labrsv = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isVisible2, setIsVisible2] = useState(true);
   const toggleVisibility = () => {
@@ -54,7 +52,7 @@ const Labmg = () => {
           <h2> Posee {2} facilidades</h2>
           <h2> Posee {5} activos</h2>
           {!isVisible? (
-          <button className={classes.btn} onClick> Cambiar capacidad</button>
+          <button className={classes.btn} onClick> Siguiente semana</button>
              ) : null}
           <button className={classes.btn} onClick={toggleVisibility}> {isVisible ? "Ampliar información" : "Volver"}</button>
         </div>
@@ -83,24 +81,6 @@ const Labmg = () => {
       {!isVisible || !isVisible2 ? (
         <div>
         <div className={classes.moreinfo}>
-        <div className={classes.line}> 
-          <h2> Computadores </h2>
-         </div>
-         <div className={classes.line}> 
-          <h2> Facilidades </h2>
-         </div>
-         <div className={classes.line}> 
-          <h2> Activos </h2>
-         </div>
-         <div className={classes.line}> 
-          <h2> Horarios </h2>
-         </div>
-      </div>
-      <div className={classes.line2}>
-      <button className={classes.btn}> Modificar</button>
-      <button className={classes.btn}> Ver facilidades</button>
-      <button className={classes.btn}> Ver Activos</button>
-      <button className={classes.btn}> Ver horarios</button>
       </div>
       </div>
       ) : null}
@@ -108,8 +88,8 @@ const Labmg = () => {
         <div className={classes.othermanagement}>
           <h1> Otros</h1>
           <Button text="Página principal" Click={1} />
-          <Button text="Gestor de Activos" Click={1} />
-          <Button text="Gestor de profesores" Click={1} />
+          <Button text="Préstamo a profesor" Click={1} />
+          <Button text="Préstamo a estudiante" Click={1} />
           <Button text="Cerrar sesión" Click={1} />
         </div>
         ) : null}
@@ -122,7 +102,7 @@ const Labmg = () => {
           <h2> Posee {2} facilidades</h2>
           <h2> Posee {5} activos</h2>
           {!isVisible2? (
-          <button className={classes.btn} onClick> Cambiar capacidad</button>
+          <button className={classes.btn} onClick> Siguiente semana</button>
              ) : null}
           <button className={classes.btn} onClick={toggleVisibility2}> Volver</button>
         </div>
@@ -133,4 +113,4 @@ const Labmg = () => {
     );
 }
 
-export default Labmg;
+export default Labrsv;

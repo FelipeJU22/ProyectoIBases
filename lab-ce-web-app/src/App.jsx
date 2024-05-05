@@ -13,6 +13,20 @@ import RequireAuth from './components/RequireAuth.jsx'
 import ProfessorBody from './components/ProfessorBody.jsx'
 import Home from './routes/Home.jsx'
 import Unauthorized from './routes/Unauthorized.jsx'
+import MainAdminPage from './components/AdminHome.jsx'
+import Labmg from './components/Labmg.jsx'
+import Actmg from './components/Actmg.jsx'
+import Profmg from './components/Profmg.jsx'
+import Opap from './components/Opap.jsx'
+import Password from './components/Password.jsx'
+import Reports from './components/Reports.jsx'
+import Operador from './components/operador/Operador.jsx'
+import Labrsv from './components/operador/Labrsv.jsx'
+import Prestamopf from './components/operador/Prestamopf.jsx'
+import Prestamoest from './components/operador/Prestamoest.jsx'
+import Devolucionact from './components/operador/Devolucionact.jsx'
+import Regaverias from './components/operador/Regaverias.jsx'
+import Reportsop from './components/operador/Reportsop.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,6 +40,25 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='unauthorized' element={<Unauthorized />} />
         <Route path='profesores' element={<ProfessorPage />} />
+        <Route path='/admin' element={<MainAdminPage />} />
+        <Route path='/admin/labmg' element={<Labmg/>} />
+        <Route path='/admin/actmg' element={<Actmg/>} />
+        <Route path='/admin/profmg' element={<Profmg/>} />
+        <Route path='/admin/opap' element={<Opap/>} />
+        <Route path='/admin/password' element={<Password/>} />
+        <Route path='/admin/reports' element={<Reports/>} />
+        <Route path='/operador' element={<Operador/>} />
+        <Route path='/operador/labrsv' element={<Labrsv/>} />
+        <Route path='/operador/prestamopf' element={<Prestamopf/>} />
+        <Route path='/operador/prestamoest' element={<Prestamoest/>} />
+        <Route path='/operador/devolucionact' element={<Devolucionact/>} />
+        <Route path='/operador/regaverias' element={<Regaverias/>} />
+        <Route path='/operador/reportes' element={<Reportsop/>} />
+
+
+
+
+
 
 
         {/* Private Routes */}

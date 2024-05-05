@@ -1,14 +1,12 @@
 import React from 'react';
-import classes from './AdminHome.module.css'; // Import CSS file for styling
-import imageSrc from '../img/lab.jpg';
-import activeSrc from '../img/activos.jpg';
-import profSrc from '../img/prof.jpg';
+import classes from '../AdminHome.module.css'; // Import CSS file for styling
+
 
 
 const Header = ({ adminName }) => {
   return (
     <div className={classes.toptobottom}>
-      <h1>Generador de reportes</h1>
+      <h1>Devolución de activo</h1>
     </div>
   );
 };
@@ -27,14 +25,19 @@ const Button = ({ text, Click }) => {
   );
 };
 
-class Reports extends React.Component {
+class Devolucionact extends React.Component {
   
 
   render() {
     return (
       <div className={classes.mainadminpage}>
         <Header adminName="Administrador" />
-        <div className={classes.bigone}>
+        <div className={classes.managementtools}>
+          <h1> Devolución</h1>
+          <h2> Al registrar la devolución se confirma que el activo se ha devuelto en óptimas condiciones</h2>
+          <Button text="Volver al Menú" Click={1} />
+        </div>
+        <div className={classes.moreinfo}>
           
         </div>
 
@@ -45,4 +48,4 @@ class Reports extends React.Component {
   }
 }
 
-export default Reports;
+export default Devolucionact;

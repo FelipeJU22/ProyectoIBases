@@ -1,14 +1,12 @@
 import React from 'react';
-import classes from './AdminHome.module.css'; // Import CSS file for styling
-import imageSrc from '../img/lab.jpg';
-import activeSrc from '../img/activos.jpg';
-import profSrc from '../img/prof.jpg';
+import classes from '../AdminHome.module.css'; // Import CSS file for styling
+
 
 
 const Header = ({ adminName }) => {
   return (
     <div className={classes.toptobottom}>
-      <h1>Generador de reportes</h1>
+      <h1>Préstamo a estudiante</h1>
     </div>
   );
 };
@@ -27,14 +25,19 @@ const Button = ({ text, Click }) => {
   );
 };
 
-class Reports extends React.Component {
+class Prestamoest extends React.Component {
   
 
   render() {
     return (
       <div className={classes.mainadminpage}>
         <Header adminName="Administrador" />
-        <div className={classes.bigone}>
+        <div className={classes.managementtools}>
+          <h1> Estudiante</h1>
+          <h2> Existen {4} solicitudes </h2>
+          <Button text="Volver al Menú" Click={1} />
+        </div>
+        <div className={classes.moreinfo}>
           
         </div>
 
@@ -45,4 +48,4 @@ class Reports extends React.Component {
   }
 }
 
-export default Reports;
+export default Prestamoest;
