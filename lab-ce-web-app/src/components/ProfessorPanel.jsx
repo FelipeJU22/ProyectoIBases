@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 function ProfessorPanel() {
 
     return <>
-        <ul>
-            <li>Préstamo de activos</li>
-            <li>Reservar un laboratorio</li>
-            <li>Cambiar contraseña</li>
+        <div>
+            <Link to='/prestamo-activos'>Préstamo de activos</Link> <br />
+            <Link to='/reserva-lab'>Reservar Laboratorio</Link> <br />
+            <Link to='/cambiar-clave'>Cambiar contraseña</Link> <br />
             <Link to='/testing'> Cerrar Sesión </Link>
-        </ul>
+        </div>
     </>
 }
 

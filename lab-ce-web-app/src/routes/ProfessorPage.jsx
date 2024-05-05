@@ -12,10 +12,6 @@ function ProfessroPage() {
                 <div className={classes.leftPanel}>
                     <ProfessorPanel />
                 </div>
-                <div className={classes.body}>
-                    <ProfessorBody />
-                </div>
-
             </div>
         </section>
     </>
