@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Button, Alert, StyleSheet, ImageBackground } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, TextInput, Text, TouchableOpacity, Button, Alert, StyleSheet, ImageBackground, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons'; // Importa los iconos de Feather (o cualquier otra biblioteca de iconos)
-import { db } from '../DataBase_SQLite/DBTables'; // Importa la función para verificar y crear la base de datos
+import { db} from '../DataBase_SQLite/DBTables'; // Importa la función para verificar y crear la base de datos
 import md5 from 'md5';
 
 
@@ -9,6 +9,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Estado para controlar si se muestra la contraseña o no
+
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Cambia el estado para mostrar u ocultar la contraseña
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: 'black', // Color del texto del botón
+    color: 'white', // Color del texto del botón
     fontSize: 19,
   },
   input: {

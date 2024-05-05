@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ImageBackground,  Modal, FlatList, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Feather } from '@expo/vector-icons'; // Importa los iconos de Feather (o cualquier otra biblioteca de iconos)
-import { db} from '../DataBase_SQLite/DBTables'; // Importa la función para verificar y crear la base de datos
+import { db, insertarSolicitudes} from '../DataBase_SQLite/DBTables'; // Importa la función para verificar y crear la base de datos
 
 
 const HomeScreen = ({ navigation, route }) => {
@@ -55,10 +55,36 @@ const HomeScreen = ({ navigation, route }) => {
           ]
     )
 
+    const [solicitudesActivoEstudiante, setSolicitudesActivoEstudiante] = useState([]);
+
     useEffect(() => {
-        obtenerSolicitudes();
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://192.168.100.251:5095/Profesor/SolicitudesPendientes?correoProfesor=${email}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                setSolicitudesActivoEstudiante(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+    
+        fetchData();
+    }, []);
+
+    useEffect(() => {
         obtenerLaboratoriosDisponibles();
       }, []);
+
+    useEffect(() => {
+        console.log(solicitudesActivoEstudiante);
+        insertarSolicitudes(solicitudesActivoEstudiante, email); // Movido aquí
+        obtenerSolicitudes();
+    }, [solicitudesActivoEstudiante]);
 
     useEffect(() => {
         obtenerHorasDisponibles();
@@ -73,14 +99,15 @@ const HomeScreen = ({ navigation, route }) => {
     const obtenerSolicitudes = () => {
         db.transaction(tx => {
           tx.executeSql(
-            'SELECT nombre_estudiante || ", " || tipo_activo || ", " || id AS solicitud FROM SOLICITUD_ACTIVO WHERE aprobado = 0;', // Concatena los valores de nombre_estudiante y tipo_activo con una coma
-            [],
+            'SELECT nombre_estudiante || ", " || tipo_activo || ", " || id AS numero FROM SOLICITUD_ACTIVO WHERE aprobado = 0 AND profesor = ?;', // Concatena los valores de nombre_estudiante y tipo_activo con una coma
+            [email],
             (tx, results) => {
               const data = [];
               for (let i = 0; i < results.rows.length; ++i) {
-                data.push(results.rows.item(i).solicitud); // Agrega la cadena concatenada a la lista de datos
+                data.push(results.rows.item(i).numero); // Agrega la cadena concatenada a la lista de datos
               }
               setPrestamosList(data);
+              console.log(data);
             },
             error => {
               console.error('Error al obtener las solicitudes:', error);
