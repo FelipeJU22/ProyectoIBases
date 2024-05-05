@@ -14,6 +14,7 @@ import ProfessorBody from './components/ProfessorBody.jsx'
 import Home from './routes/Home.jsx'
 import Unauthorized from './routes/Unauthorized.jsx'
 import NewPasswordView from './components/NewPasswordView.jsx'
+import Labs from './components/Labs.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -30,6 +31,7 @@ function App() {
         <Route path='profesores' element={<ProfessorPage />} />
         <Route path='prestamo-activos' element={<ProfessorBody />} />
         <Route path='cambiar-clave' element={<NewPasswordView />} />
+        <Route path='reserva-lab' element={<Labs />} />
 
         {/* Private Routes */}
         <Route element={<RequireAuth allowedRoles={[100]} />}>

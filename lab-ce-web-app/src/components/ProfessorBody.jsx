@@ -11,8 +11,12 @@ function ProfessorBody() {
     const [solicitudes, setSolicitude] = useState([])
 
     useEffect(() => {
+        const API_URL = 'http://localhost:5095'
+        const INFO_LAB_EP = '/Laboratorio/MostrarInformacionLab?nombreLab='
+        const AVAILABLE_LABS = ['F2-06', 'F2-07', 'F2-08', 'F2-09']
+
         const requestOptions = {
-            method: 'POST',
+            method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         };
 
@@ -53,10 +57,6 @@ function ProfessorBody() {
     return <>
 
         <h2>Solicitudes para préstamo de activos</h2>
-
-        <button onClick={noseHandler}>MMEA</button>
-
-        <button onClick={newSolicHandler}>Solicitud</button>
 
         {solicitudes.length > 0 ? (
             <ul>
