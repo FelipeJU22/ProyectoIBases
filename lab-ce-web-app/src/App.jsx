@@ -29,6 +29,7 @@ import Regaverias from './components/operador/Regaverias.jsx'
 import Reportsop from './components/operador/Reportsop.jsx'
 import NewPasswordView from './components/NewPasswordView.jsx'
 import Labs from './components/Labs.jsx'
+import LoginAdmin from './components/LoginAdmin.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -39,6 +40,7 @@ function App() {
         {/*Public Routes*/}
         <Route path='register' element={<Register />} />
         <Route path='login-profesor' element={<LoginPage />} />
+        <Route path='login-admin' element={<LoginAdmin />} />
         <Route path='/' element={<Home />} />
         <Route path='unauthorized' element={<Unauthorized />} />
         <Route path='profesores' element={<ProfessorPage />} />
@@ -56,7 +58,6 @@ function App() {
         <Route path='/operador/devolucionact' element={<Devolucionact />} />
         <Route path='/operador/regaverias' element={<Regaverias />} />
         <Route path='/operador/reportes' element={<Reportsop />} />
-
         <Route path='prestamo-activos' element={<ProfessorBody />} />
         <Route path='cambiar-clave' element={<NewPasswordView />} />
         <Route path='reserva-lab' element={<Labs />} />

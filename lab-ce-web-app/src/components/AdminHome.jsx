@@ -3,7 +3,7 @@ import classes from './AdminHome.module.css'; // Import CSS file for styling
 import imageSrc from '../img/lab.jpg';
 import activeSrc from '../img/activos.jpg';
 import profSrc from '../img/prof.jpg';
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { useLocation, Navigate, Outlet, Link } from "react-router-dom";
 
 
 const Header = ({ adminName }) => {
@@ -49,7 +49,9 @@ class MainAdminPage extends React.Component {
           <div className={classes.imagecontainer}>
         <img src={imageSrc} alt='None'/>
           </div>
-          <Button text="Ir a Laboratorios" Click={1} />
+          <Link to="/admin/labmg">
+          <Button text="Ir a Laboratorios"/>
+          </Link>
         </div>
 
 
@@ -65,7 +67,9 @@ class MainAdminPage extends React.Component {
           <div className={classes.imagecontainer}>
         <img src={activeSrc} alt='None'/>
           </div>
-          <Button text="Ir a Activos" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <Link to="/admin/actmg">
+          <Button text="Ir a Activos" />
+          </Link>
         </div>
 
         <div className={classes.profmanagement}>
@@ -79,7 +83,9 @@ class MainAdminPage extends React.Component {
           <div className={classes.imagecontainer}>
         <img src={profSrc} alt='None'/>
           </div>
-          <Button text="Ir a Profesores" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <Link to="/admin/profmg">
+          <Button text="Ir a Profesores"/>
+          </Link>
         </div>
 
         <div className={classes.othermanagement}>
@@ -87,13 +93,22 @@ class MainAdminPage extends React.Component {
           <p> Otras funcionalidades de Administrador
           </p>
           <p></p>
-        <Button text="Aprobación de operadores" onClick={() => this.handleToolButtonClick('labgestor')} />
+        <Link to="/admin/opap"> 
+        <Button text="Aprobación de operadores"/>
+        </Link>
         <p></p>
-        <Button text="Reestablecer contrseñas" onClick={() => this.handleToolButtonClick('labgestor')} />
+        <Link to="/admin/password"> 
+        <Button text="Reestablecer contrseñas"/>
+        </Link>
         <p></p>
+        <Link to="/admin/reports"> 
         <Button text="Generador de reportes" onClick={() => this.handleToolButtonClick('labgestor')} />
+        
         <p></p>
-        <Button text="Cerrar sesión" onClick={() => this.handleToolButtonClick('labgestor')} />
+        </Link>
+        <Link to="/"> 
+        <Button text="Cerrar sesión" />
+        </Link>
         </div>
         
         

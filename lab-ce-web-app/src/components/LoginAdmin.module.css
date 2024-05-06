@@ -1,6 +1,7 @@
+
 .body{
     background: rgb(249,249,249);
-    background: radial-gradient(circle, #7aa4b6 50%, #fe0202 100%);
+    background: radial-gradient(circle, #7aa4b6 50%, #eeb281 100%);
     color: rgba(0, 0, 0, 0.87);
     font-family: Bebas Neue;
     font-weight: 400;
@@ -8,11 +9,10 @@
   }
 
 
-
 .form {
     border: color #40A2D8;
     ;
-    background-color: #0b73b0;
+    background-color: #8166eb;
     font-family: Bebas Neue;
     padding: 1rem;
     width: 25rem;

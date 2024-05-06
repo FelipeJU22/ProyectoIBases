@@ -1,9 +1,9 @@
-import classes from './LoginPage.module.css';
+import classes from './LoginAdmin.module.css';
 import { useRef, useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-function LoginPage() {
+function LoginAdmin() {
 
     const roles = [100];
 
@@ -11,7 +11,7 @@ function LoginPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/profesores"
+    const from = location.state?.from?.pathname || "/admin"
 
     const userRef = useRef();
     const errRef = useRef();
@@ -46,7 +46,7 @@ function LoginPage() {
                 })
             };
 
-            const response = await fetch('http://localhost:5095/Ingreso/IngresoProfesor', requestOptions)
+            const response = await fetch('http://localhost:5095/Ingreso/IngresoAdministrador', requestOptions)
             const textData = await response.text();
 
             console.log(from)
@@ -78,7 +78,7 @@ function LoginPage() {
     return (
         <div>
             <div className={classes.toptobottom}>
-                <h1>Inicio de Sesión de Profesor</h1>
+                <h1>Inicio de Sesión de Administrador</h1>
             </div>
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
             <form onSubmit={handleSubmit} className={classes.form}>
@@ -106,7 +106,7 @@ function LoginPage() {
                 </p>
 
                 <p id="loginnote" className={retryLogin ? classes.instructions : classes.hide}>
-                    Usuario Incorrecto
+                    Compruebe sus credenciales e intente de nuevo
                 </p>
 
                 <p className={classes.actions}>
@@ -114,7 +114,6 @@ function LoginPage() {
                 </p>
             </form>
             <p>
-                No tiene cuenta? Debe solicitar a un administrador su registro<br />
                 <Link className="line" to="/">
                     <button>Volver</button>
                 </Link>
@@ -123,4 +122,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage;
+export default LoginAdmin;

@@ -3,6 +3,7 @@ import classes from './AdminHome.module.css'; // Import CSS file for styling
 import imageSrc from '../img/lab.jpg';
 import activeSrc from '../img/activos.jpg';
 import profSrc from '../img/prof.jpg';
+import { Link } from 'react-router-dom';
 
 
 const Header = ({ adminName }) => {
@@ -107,10 +108,18 @@ const Labmg = () => {
       {isVisible && isVisible2 ?(
         <div className={classes.othermanagement}>
           <h1> Otros</h1>
-          <Button text="Página principal" Click={1} />
-          <Button text="Gestor de Activos" Click={1} />
+          <Link to='/admin'>
+          <Button text="Página principal"/>
+          </Link>
+          <Link to='/admin/actmg'>
+          <Button text="Gestor de Activos"/>
+          </Link>
+          <Link to='/admin/profmg'>
           <Button text="Gestor de profesores" Click={1} />
+          </Link>
+          <Link to='/'>
           <Button text="Cerrar sesión" Click={1} />
+          </Link>
         </div>
         ) : null}
       
