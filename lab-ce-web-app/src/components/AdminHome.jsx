@@ -15,11 +15,11 @@ const Header = ({ adminName }) => {
 };
 
 const enroute = (text) => {
-  if(text == 1){
-    <Navigate to="/admin/labmg"/>
+  if (text == 1) {
+    <Navigate to="/admin/labmg" />
     console.log(1)
   }
-  
+
 
 }
 
@@ -30,7 +30,7 @@ const Button = ({ text, Click }) => {
 };
 
 class MainAdminPage extends React.Component {
-  
+
 
   render() {
     return (
@@ -47,7 +47,7 @@ class MainAdminPage extends React.Component {
             <br></br> -Activos
           </p>
           <div className={classes.imagecontainer}>
-        <img src={imageSrc} alt='None'/>
+            <img src={imageSrc} alt='None' />
           </div>
           <Button text="Ir a Laboratorios" Click={1} />
         </div>
@@ -63,7 +63,7 @@ class MainAdminPage extends React.Component {
             <br></br> -Préstamos
           </p>
           <div className={classes.imagecontainer}>
-        <img src={activeSrc} alt='None'/>
+            <img src={activeSrc} alt='None' />
           </div>
           <Button text="Ir a Activos" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
@@ -77,7 +77,7 @@ class MainAdminPage extends React.Component {
             <br></br>
           </p>
           <div className={classes.imagecontainer}>
-        <img src={profSrc} alt='None'/>
+            <img src={profSrc} alt='None' />
           </div>
           <Button text="Ir a Profesores" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
@@ -87,16 +87,16 @@ class MainAdminPage extends React.Component {
           <p> Otras funcionalidades de Administrador
           </p>
           <p></p>
-        <Button text="Aprobación de operadores" onClick={() => this.handleToolButtonClick('labgestor')} />
-        <p></p>
-        <Button text="Reestablecer contrseñas" onClick={() => this.handleToolButtonClick('labgestor')} />
-        <p></p>
-        <Button text="Generador de reportes" onClick={() => this.handleToolButtonClick('labgestor')} />
-        <p></p>
-        <Button text="Cerrar sesión" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <Button text="Aprobación de operadores" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <p></p>
+          <Button text="Reestablecer contrseñas" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <p></p>
+          <Button text="Generador de reportes" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <p></p>
+          <Button text="Cerrar sesión" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
-        
-        
+
+
       </div>
     );
   }
