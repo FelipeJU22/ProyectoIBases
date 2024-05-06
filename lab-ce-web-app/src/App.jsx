@@ -35,6 +35,8 @@ import OperatorLogin from './components/operator/OperatorLogin.jsx'
 import OperatorHome from './components/operator/OperatorHome.jsx'
 import OperatorLoan from './components/operator/OperatorLoan.jsx'
 import OperatorLabs from './components/operator/OperatorLabs.jsx'
+import OperatorLoanPf from './components/operator/OperatorLoanPf.jsx'
+
 
 
 function App() {
@@ -70,7 +72,7 @@ function App() {
         <Route path='/operador/home' element={<OperatorHome />} />
         <Route path='/operador/prestamo' element={<OperatorLoan />} />
         <Route path='/operador/labs' element={<OperatorLabs />} />
-        <Route path='/operador/prestamo-profesor' element={<OperatorHome />} />
+        <Route path='/operador/prestamo-profesor' element={<OperatorLoanPf />} />
         <Route path='/operador/prestamo-estudiante' element={<OperatorHome />} />
 
         {/* Professor Routes */}

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Actives from "../profesor/Actives";
+import classes from '../profesor/NewPasswordView.module.css';
+import { Link } from "react-router-dom";
+
 
 function OperatorLoan() {
 
@@ -56,21 +59,16 @@ function OperatorLoan() {
 
     return <>
 
-        <h2>Solicitudes para préstamo de activos</h2>
+        <h2>Opciones para préstamo de activos</h2>
 
         {solicitudes.length > 0 ? (
-            <ul>
-                {solicitudes.map((solic) => <Actives
-                    id={solic.IdActivo}
-                    nombre={solic.NombreEstudiante}
-                    apellido={solic.Apellido1Estudiante + ' ' + solic.Apellido2Estudiante}
-                    tipo={solic.Tipo}
-                    onDelete={handleDelete}
-                />)}
-            </ul>
-            // <ul>
-            //     {solicitudes.map((solic) => solic)}
-            // </ul>
+            <div className={classes.box}>
+
+                <Link to='/operador/prestamo-profesor'>Solicitar préstamo a profesor</Link> <br />
+                <Link to='/operador/labs'>Solicitar préstamo a estudiante</Link> <br />
+                <Link to='/testing'>Devolución de activo</Link> <br />
+
+            </div>
         ) :
             <div>
                 <p>No hay solicitudes de préstamo pendientes.</p>
