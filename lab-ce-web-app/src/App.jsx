@@ -31,6 +31,8 @@ import LoginAdmin from './components/LoginAdmin.jsx'
 import NewPasswordView from './components/profesor/NewPasswordView.jsx'
 import Labs from './components/profesor/Labs.jsx'
 import LogoutPage from './routes/LogoutPage.jsx'
+import OperatorLogin from './components/operator/OperatorLogin.jsx'
+import OperatorHome from './components/operator/OperatorHome.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -59,6 +61,13 @@ function App() {
         <Route path='/operador/regaverias' element={<Regaverias />} />
         <Route path='/operador/reportes' element={<Reportsop />} />
         <Route path='/logout' element={<LogoutPage />} />
+
+        {/* NEW OPERATOR Routes */}
+        <Route path='/operador/login' element={<OperatorLogin />} />
+        <Route path='/operador/home' element={<OperatorHome />} />
+
+
+
 
         {/* Professor Routes */}
         <Route element={<RequireAuth allowedRoles={[100]} />}>

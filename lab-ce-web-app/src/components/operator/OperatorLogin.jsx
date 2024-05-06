@@ -2,8 +2,13 @@ import { useRef, useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import md5 from 'md5';
+import classes from '../profesor/LoginPage.module.css';
+
 
 function OperatorLogin() {
+
+    const API_URL = 'http://localhost:5095'
+    const LOGIN_OPERADOR_EP = '/Ingreso/IngresoOperador'
 
     const roles = [101];
 
@@ -11,7 +16,7 @@ function OperatorLogin() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/profesores"
+    const from = "/operador/home"
 
     const userRef = useRef();
     const errRef = useRef();
@@ -20,6 +25,8 @@ function OperatorLogin() {
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [retryLogin, setRetryLogin] = useState(false);
+
+
 
     useEffect(() => {
         userRef.current.focus();
@@ -46,22 +53,24 @@ function OperatorLogin() {
                 })
             };
 
-            const response = await fetch('http://localhost:5095/Ingreso/IngresoProfesor', requestOptions)
+            const response = await fetch(API_URL + LOGIN_OPERADOR_EP, requestOptions)
             const textData = await response.text();
 
-            console.log(from)
+            console.log(response.status)
 
             if (response.status === 200) {
-                setResponseMsg(textData);
+                //setResponseMsg(textData);
                 //setSuccess(true);
                 console.log(response);
                 setAuth({ user, pwd, roles });
+                console.log('NAVIGATING')
                 setUser('');
                 setPwd('');
                 //navigate('/adwda')
                 //navigate('/profesores');
-                navigate(from, { replace: true });
+                navigate(from);
             } else {
+                console.log('NOT NAVIGATING')
                 setResponseMsg(textData)
                 setRetryLogin(true)
             }
@@ -78,7 +87,7 @@ function OperatorLogin() {
     return (
         <div>
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
-            <h1>Iniciar Sesión</h1>
+            <h1>Iniciar Sesión Operador</h1>
             <form onSubmit={handleSubmit} className={classes.form}>
                 <p>
                     <label htmlFor="username">Usuario</label>
