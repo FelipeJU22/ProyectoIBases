@@ -93,7 +93,8 @@ namespace LabCE_DALSQL
                                     Apellido1Estudiante = respuesta["apellido1_estudiante"].ToString(),
                                     Apellido2Estudiante = respuesta["apellido2_estudiante"].ToString(),
                                     Tipo = respuesta["tipo"].ToString(),
-                                    IdActivo = int.Parse(respuesta["id"].ToString())
+                                    IdActivo = int.Parse(respuesta["id"].ToString()),
+                                    PlacaActivo = respuesta["placa_activo"].ToString()
                                 };
                                 solicitudes.Add(solicitud);
                             }

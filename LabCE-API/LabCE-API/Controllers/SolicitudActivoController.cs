@@ -24,15 +24,15 @@ namespace LabCE_API.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("AprobarSolicitudActivoId")]
-        public IActionResult AprobarSolicitudActivoId(int id)
+        public IActionResult AprobarSolicitudActivoId(int id, string placa)
         {
             try
             {
-                _solicitudActivoBLL.AprobarSolicitudActivoIdBLL(id);
+                _solicitudActivoBLL.AprobarSolicitudActivoIdBLL(id, placa);
             }
             catch (Exception ex)
             {
-
+                throw;
             }
             return Ok();
         }
@@ -52,7 +52,7 @@ namespace LabCE_API.Controllers
             }
             catch (Exception ex)
             {
-
+                throw;
             }
             return Ok();
         }
@@ -105,7 +105,7 @@ namespace LabCE_API.Controllers
             }
             catch (Exception ex)
             {
-
+                throw;
             }
             return Ok();
         }
@@ -117,14 +117,15 @@ namespace LabCE_API.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("FinalizarPrestamo")]
-        public IActionResult FinalizarPrestamo(int id)
+        public IActionResult FinalizarPrestamo(int id, string placa)
         {
             try
             {
-                _solicitudActivoBLL.FinalizarPrestamoBLL(id);
+                _solicitudActivoBLL.FinalizarPrestamoBLL(id, placa);
             }
             catch (Exception ex)
             {
+                throw;
 
             }
             return Ok();

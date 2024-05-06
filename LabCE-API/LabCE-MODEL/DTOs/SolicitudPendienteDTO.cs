@@ -13,5 +13,6 @@ namespace LabCE_MODEL.DTOs
         public string Apellido2Estudiante { get; set; }
         public string Tipo { get; set; }
         public int IdActivo { get; set; }
+        public string PlacaActivo { get; set; }
     }
 }

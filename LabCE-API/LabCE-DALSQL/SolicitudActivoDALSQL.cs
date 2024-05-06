@@ -21,7 +21,7 @@ namespace LabCE_DALSQL
             _configuration = configuration;
             _mapper = mapper;
         }
-        public void AprobarSolicitudActivoId(int id)
+        public void AprobarSolicitudActivoId(int id, string placa)
         {
             string baseDatos = _configuration.GetConnectionString("default");
             string procedAlmacenado = "[aprobacion_activo]";
@@ -36,6 +36,7 @@ namespace LabCE_DALSQL
                     {
                         comando.CommandType = CommandType.StoredProcedure;
                         comando.Parameters.Add("@id_solicitud", SqlDbType.Int).Value = id;
+                        comando.Parameters.Add("@placa_activo", SqlDbType.VarChar).Value = placa;
 
                         comando.ExecuteNonQuery();
                     }
@@ -153,7 +154,7 @@ namespace LabCE_DALSQL
                 throw;
             }
         }
-        public void FinalizarPrestamo(int id)
+        public void FinalizarPrestamo(int id, string placa_activo)
         {
             string baseDatos = _configuration.GetConnectionString("default");
             string procedAlmacenado = "[finalizar_prestamo_activo]";
@@ -168,6 +169,7 @@ namespace LabCE_DALSQL
                     {
                         comando.CommandType = CommandType.StoredProcedure;
                         comando.Parameters.Add("@id_prestamo", SqlDbType.Int).Value = id;
+                        comando.Parameters.Add("@placa_activo", SqlDbType.VarChar).Value = placa_activo;
                         comando.ExecuteNonQuery();
                     }
                 }

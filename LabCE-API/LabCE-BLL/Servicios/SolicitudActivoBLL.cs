@@ -33,11 +33,11 @@ namespace LabCE_BLL.Servicios
             }
         }
 
-        public void AprobarSolicitudActivoIdBLL(int id)
+        public void AprobarSolicitudActivoIdBLL(int id, string placa)
         {
             try
             {
-                _solicitudActivoDALSQL.AprobarSolicitudActivoId(id);
+                _solicitudActivoDALSQL.AprobarSolicitudActivoId(id, placa);
             }
             catch (Exception ex)
             {
@@ -57,11 +57,11 @@ namespace LabCE_BLL.Servicios
             }
         }
 
-        public void FinalizarPrestamoBLL(int id)
+        public void FinalizarPrestamoBLL(int id, string placa)
         {
             try
             {
-                _solicitudActivoDALSQL.FinalizarPrestamo(id);
+                _solicitudActivoDALSQL.FinalizarPrestamo(id, placa);
             }
             catch (Exception ex)
             {

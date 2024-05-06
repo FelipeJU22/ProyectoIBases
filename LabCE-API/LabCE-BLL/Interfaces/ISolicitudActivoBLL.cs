@@ -9,11 +9,11 @@ namespace LabCE_BLL.Interfaces
 {
     public interface ISolicitudActivoBLL
     {
-        public void AprobarSolicitudActivoIdBLL(int id);
+        public void AprobarSolicitudActivoIdBLL(int id, string placa);
         public List<PrestamoActivoDTO> GetPrestamosActivoBLL(string placa);
         public void EliminarSolicitudActivoIdBLL(int id);
         public void AgregarSolicitudActivoBLL(SolicitudActivoDTO solicitud);
-        public void FinalizarPrestamoBLL(int id);
+        public void FinalizarPrestamoBLL(int id, string placa);
 
     }
 }
