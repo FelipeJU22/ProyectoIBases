@@ -24,6 +24,8 @@ function NewPasswordView() {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
+    const goBack = () => navigate(-1);
+
     useEffect(() => {
         userRef.current.focus();
     }, [])
@@ -107,6 +109,8 @@ function NewPasswordView() {
 
                         <button disabled={!validMatch ? true : false}>Cambiar Contraseña</button>
                     </form>
+
+                    <button onClick={goBack}>Volver</button>
 
                 </section>
             )}

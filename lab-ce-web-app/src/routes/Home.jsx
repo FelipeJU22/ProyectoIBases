@@ -5,8 +5,8 @@ function Home() {
     return (
         <section className={classes.links}>
 
-            <Link to="/login-profesor">Profesores</Link>
-            <Link to="/profesores">Operadores</Link>
+            <Link to="/login-profesor">Login Profesores</Link>
+            <Link to="/profesores">Profesores</Link>
             <Link to="/testing">Test</Link>
             <Link to="/register">Registrarse</Link>
 

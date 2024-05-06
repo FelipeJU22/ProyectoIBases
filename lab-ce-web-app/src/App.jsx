@@ -29,6 +29,7 @@ import Regaverias from './components/operador/Regaverias.jsx'
 import Reportsop from './components/operador/Reportsop.jsx'
 import NewPasswordView from './components/profesor/NewPasswordView.jsx'
 import Labs from './components/profesor/Labs.jsx'
+import LogoutPage from './routes/LogoutPage.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -41,7 +42,6 @@ function App() {
         <Route path='login-profesor' element={<LoginPage />} />
         <Route path='/' element={<Home />} />
         <Route path='unauthorized' element={<Unauthorized />} />
-        <Route path='profesores' element={<ProfessorPage />} />
         <Route path='/admin' element={<MainAdminPage />} />
         <Route path='/admin/labmg' element={<Labmg />} />
         <Route path='/admin/actmg' element={<Actmg />} />
@@ -56,14 +56,14 @@ function App() {
         <Route path='/operador/devolucionact' element={<Devolucionact />} />
         <Route path='/operador/regaverias' element={<Regaverias />} />
         <Route path='/operador/reportes' element={<Reportsop />} />
+        <Route path='/logout' element={<LogoutPage />} />
 
-        <Route path='prestamo-activos' element={<ProfessorBody />} />
-        <Route path='cambiar-clave' element={<NewPasswordView />} />
-        <Route path='reserva-lab' element={<Labs />} />
-
-
-        {/* Private Routes */}
+        {/* Professor Routes */}
         <Route element={<RequireAuth allowedRoles={[100]} />}>
+          <Route path='prestamo-activos' element={<ProfessorBody />} />
+          <Route path='reserva-lab' element={<Labs />} />
+          <Route path='profesores' element={<ProfessorPage />} />
+          <Route path='cambiar-clave' element={<NewPasswordView />} />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={[101]} />}>

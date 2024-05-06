@@ -23,7 +23,7 @@ function Labs() {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showTime, setShowTime] = useState(false);
 
-    let daySchedule = '';
+    const goBack = () => navigate(-1);
 
     useEffect(() => {
         async function fetchDataAndLabs() {
@@ -265,6 +265,8 @@ function Labs() {
                     </div>
                 )}
             </div>
+
+            <button onClick={goBack}>Volver</button>
         </div>
     )
 }
