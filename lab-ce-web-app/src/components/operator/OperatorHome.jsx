@@ -8,8 +8,8 @@ function OperatorHome() {
         <div className={classes.box}>
             <h1>Opciones de Operador</h1>
 
-            <Link to='/prestamo-activos'>Manejo de Activos</Link> <br />
-            <Link to='/reserva-lab'>Reservar Laboratorio</Link> <br />
+            <Link to='/operador/prestamo'>Manejo de Activos</Link> <br />
+            <Link to='/operador/labs'>Reservar Laboratorio</Link> <br />
             <Link to='/testing'>testLink</Link> <br />
             <Link to='/logout'> Cerrar Sesión </Link>
         </div>
