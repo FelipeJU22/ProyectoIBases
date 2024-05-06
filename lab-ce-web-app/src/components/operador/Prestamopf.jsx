@@ -1,8 +1,6 @@
 import React from 'react';
 import classes from '../AdminHome.module.css'; // Import CSS file for styling
 
-
-
 const Header = ({ adminName }) => {
   return (
     <div className={classes.toptobottom}>
@@ -12,10 +10,10 @@ const Header = ({ adminName }) => {
 };
 
 const enroute = (text) => {
-  if(text == 1){
-    console.log('Button clicked!', {text});
+  if (text == 1) {
+    console.log('Button clicked!', { text });
   }
-  
+
 
 }
 
@@ -26,7 +24,7 @@ const Button = ({ text, Click }) => {
 };
 
 class Prestamopf extends React.Component {
-  
+
 
   render() {
     return (
@@ -38,11 +36,11 @@ class Prestamopf extends React.Component {
           <Button text="Volver al Menú" Click={1} />
         </div>
         <div className={classes.moreinfo}>
-          
+
         </div>
 
 
-        
+
       </div>
     );
   }

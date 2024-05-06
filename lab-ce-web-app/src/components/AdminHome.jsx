@@ -15,11 +15,11 @@ const Header = ({ adminName }) => {
 };
 
 const enroute = (text) => {
-  if(text == 1){
-    <Navigate to="/admin/labmg"/>
+  if (text == 1) {
+    <Navigate to="/admin/labmg" />
     console.log(1)
   }
-  
+
 
 }
 
@@ -30,7 +30,7 @@ const Button = ({ text, Click }) => {
 };
 
 class MainAdminPage extends React.Component {
-  
+
 
   render() {
     return (
@@ -47,7 +47,7 @@ class MainAdminPage extends React.Component {
             <br></br> -Activos
           </p>
           <div className={classes.imagecontainer}>
-        <img src={imageSrc} alt='None'/>
+            <img src={imageSrc} alt='None' />
           </div>
           <Link to="/admin/labmg">
           <Button text="Ir a Laboratorios"/>
@@ -65,7 +65,7 @@ class MainAdminPage extends React.Component {
             <br></br> -Préstamos
           </p>
           <div className={classes.imagecontainer}>
-        <img src={activeSrc} alt='None'/>
+            <img src={activeSrc} alt='None' />
           </div>
           <Link to="/admin/actmg">
           <Button text="Ir a Activos" />
@@ -81,7 +81,7 @@ class MainAdminPage extends React.Component {
             <br></br>
           </p>
           <div className={classes.imagecontainer}>
-        <img src={profSrc} alt='None'/>
+            <img src={profSrc} alt='None' />
           </div>
           <Link to="/admin/profmg">
           <Button text="Ir a Profesores"/>
@@ -110,8 +110,8 @@ class MainAdminPage extends React.Component {
         <Button text="Cerrar sesión" />
         </Link>
         </div>
-        
-        
+
+
       </div>
     );
   }

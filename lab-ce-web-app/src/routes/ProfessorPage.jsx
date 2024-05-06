@@ -1,6 +1,6 @@
-import ProfessorHeader from "../components/ProfessorHeader";
-import ProfessorPanel from "../components/ProfessorPanel";
-import ProfessorBody from "../components/ProfessorBody";
+import ProfessorHeader from "../components/profesor/ProfessorHeader";
+import ProfessorPanel from "../components/profesor/ProfessorPanel";
+import ProfessorBody from "../components/profesor/ProfessorBody";
 import classes from './ProfessorPage.module.css'
 
 function ProfessroPage() {

@@ -1,7 +1,8 @@
 import classes from './LoginPage.module.css';
 import { useRef, useState, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import md5 from 'md5';
 
 function LoginPage() {
 
@@ -36,6 +37,8 @@ function LoginPage() {
 
         try {
             console.log(user, pwd, roles)
+            console.log('Password: ', pwd);
+            console.log('Encypted:', md5(pwd));
 
             const requestOptions = {
                 method: 'POST',
@@ -52,7 +55,7 @@ function LoginPage() {
             console.log(from)
 
             if (response.status === 200) {
-                setResponseMsg(textData)
+                setResponseMsg(textData);
                 //setSuccess(true);
                 console.log(response);
                 setAuth({ user, pwd, roles });

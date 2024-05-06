@@ -3,6 +3,9 @@ import classes from '../AdminHome.module.css'; // Import CSS file for styling
 import imageSrc from '../../img/lab.jpg';
 import activeSrc from '../../img/activos.jpg';
 import profSrc from '../../img/prof.jpg';
+import { useNavigate } from 'react-router-dom';
+//import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const Header = ({ opName }) => {
@@ -14,21 +17,26 @@ const Header = ({ opName }) => {
 };
 
 const enroute = (text) => {
-  if(text == 1){
-    console.log('Button clicked!', {text});
-  }
-  
+  if (text == 1) {
+    console.log('Button clicked!', { text });
 
+  }
 }
 
 const Button = ({ text, Click }) => {
+  // Define the click handler
+  const handleClick = () => {
+    // Call enroute function when button is clicked
+    enroute(Click);
+  };
+
   return (
-    <button className={classes.btn} onClick={() => enroute(1)}>{text}</button>
+    <button className={classes.btn} onClick={handleClick}>{text}</button>
   );
 };
 
 class Operador extends React.Component {
-  
+
 
   render() {
     return (
@@ -39,9 +47,11 @@ class Operador extends React.Component {
           <p> Permite realizar la reserva de un laboratorio en un horario disponible a nombre de un estudiante
           </p>
           <div className={classes.imagecontainer}>
-        <img src={imageSrc} alt='None'/>
+            <img src={imageSrc} alt='None' />
           </div>
-          <Button text="Reservaciones" Click={1} />
+          <Link to="/operador/prestamopf">
+            <Button text="Reservaciones" />
+          </Link>
         </div>
 
 
@@ -50,7 +60,7 @@ class Operador extends React.Component {
           <p> Permite prestar un activo a un profesor, requiere validación de las credenciales del profesor
           </p>
           <div className={classes.imagecontainer}>
-        <img src={activeSrc} alt='None'/>
+            <img src={activeSrc} alt='None' />
           </div>
           <Button text="Ingresar" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
@@ -58,9 +68,9 @@ class Operador extends React.Component {
         <div className={classes.profmanagement}>
           <h1> Préstamo de activo a estudiante</h1>
           <p> Permite que un estudiante solicite un préstamo, el préstamo puede requerir de la aprobación de un profesor
-         </p>
+          </p>
           <div className={classes.imagecontainer}>
-        <img src={activeSrc} alt='None'/>
+            <img src={activeSrc} alt='None' />
           </div>
           <Button text="Ingresar" onClick={() => this.handleToolButtonClick('labgestor')} />
         </div>
@@ -70,17 +80,17 @@ class Operador extends React.Component {
           <p> Otras funcionalidades de Operador
           </p>
           <p></p>
-        <Button text="Devolución de activo" onClick={() => this.handleToolButtonClick('labgestor')} />
-        <p></p>
-        <Button text="Registro de averías" onClick={() => this.handleToolButtonClick('labgestor')} />
-        <p></p>
-        <Button text="Generador de reportes" onClick={() => this.handleToolButtonClick('labgestor')} />
-        <p></p>
-        <Button text="Cerrar sesión" onClick={() => this.handleToolButtonClick('labgestor')} />
-        
+          <Button text="Devolución de activo" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <p></p>
+          <Button text="Registro de averías" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <p></p>
+          <Button text="Generador de reportes" onClick={() => this.handleToolButtonClick('labgestor')} />
+          <p></p>
+          <Button text="Cerrar sesión" onClick={() => this.handleToolButtonClick('labgestor')} />
+
         </div>
-        
-        
+
+
       </div>
     );
   }
