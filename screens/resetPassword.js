@@ -32,14 +32,26 @@ const ResetPasswordScreen = ({navigation, route}) => {
     if (passwordsMatch) {
       const hashedPassword = cifrarPassword(password);
       cambiarContraseña(email, hashedPassword)
-        .then(() => {
-          Alert.alert('Contraseña restablecida con éxito');
-          navigation.navigate('Home', { email: email });
+        
+
+      fetch(`http://192.168.100.56:5095/Profesor/CambiarContraseñaProfesor`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ correo: email, password: hashedPassword }),
         })
-        .catch(error => {
-          console.error('Error al restablecer la contraseña:', error);
-          Alert.alert('Error al restablecer la contraseña');
-        });
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error al cambiar la contraseña');
+            }
+            Alert.alert('Contraseña restablecida con éxito');
+            navigation.navigate('Home', { email: email });
+          })
+          .catch(error => {
+            console.error('Error al restablecer la contraseña:', error);
+            Alert.alert('Error al restablecer la contraseña');
+          });
     } else {
       Alert.alert('Las contraseñas no coinciden, intente de nuevo');
     }

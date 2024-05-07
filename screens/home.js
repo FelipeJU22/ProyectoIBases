@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ImageBackground,  Modal, FlatList, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Feather } from '@expo/vector-icons'; // Importa los iconos de Feather (o cualquier otra biblioteca de iconos)
-import { db, insertarSolicitudes} from '../DataBase_SQLite/DBTables'; // Importa la función para verificar y crear la base de datos
+import { db, insertarSolicitudes, insertarLaboratorio, insertarHorarios, obtenerInstanciasHorario, } from '../DataBase_SQLite/DBTables'; // Importa la función para verificar y crear la base de datos
 
 
 const HomeScreen = ({ navigation, route }) => {
@@ -20,47 +20,29 @@ const HomeScreen = ({ navigation, route }) => {
     const [capacidad, setCapacidad] = useState();
     const [computadores, setCantidadComputadores] = useState();
 
-
     const [prestamosList, setPrestamosList] = useState([]);
     const [laboratorios, setLaboratorios] = useState([]);
+
     const [horas, setHoras] = useState([]);
     const [horasSinSolicitud, setHorasSinSolicitud] = useState([]);
+
+    const [diaSemana, setDiaSemana] = useState('');
+    const [horaApert, setHoraApert] = useState("");
+    const [horadeCierre, setHoradeCierre] = useState("");
+
+
     const [loading, setLoading] = useState(true); // Nuevo estado para indicar si los datos están cargando
 
-    const [availableTimes, setAvailableTimes] = useState( [
-            "01:00:00",
-            "02:00:00",
-            "03:00:00",
-            "04:00:00",
-            "05:00:00",
-            "06:00:00",
-            "07:00:00",
-            "08:00:00",
-            "09:00:00",
-            "10:00:00",
-            "11:00:00",
-            "12:00:00",
-            "13:00:00",
-            "14:00:00",
-            "15:00:00",
-            "16:00:00",
-            "17:00:00",
-            "18:00:00",
-            "19:00:00",
-            "20:00:00",
-            "21:00:00",
-            "22:00:00",
-            "23:00:00",
-            "24:00:00",
-          ]
-    )
+    const [availableTimes, setAvailableTimes] = useState([]);
 
     const [solicitudesActivoEstudiante, setSolicitudesActivoEstudiante] = useState([]);
 
     useEffect(() => {
+
+
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://192.168.100.251:5095/Profesor/SolicitudesPendientes?correoProfesor=${email}`, {
+                const response = await fetch(`http://192.168.100.56:5095/Profesor/SolicitudesPendientes?correoProfesor=${email}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -76,30 +58,38 @@ const HomeScreen = ({ navigation, route }) => {
         fetchData();
     }, []);
 
+   
     useEffect(() => {
-        obtenerLaboratoriosDisponibles();
-      }, []);
+        if (showTimePickerModal) {
+            generarListaHoras(horaApert, horadeCierre);
+        }
+    }, [showTimePickerModal, horaApert, horadeCierre]);
 
-    useEffect(() => {
-        console.log(solicitudesActivoEstudiante);
-        insertarSolicitudes(solicitudesActivoEstudiante, email); // Movido aquí
-        obtenerSolicitudes();
+      useEffect(() => { 
+        if (solicitudesActivoEstudiante.length > 0) {
+            obtenerYProcesarLaboratorios();
+
+            insertarSolicitudes(solicitudesActivoEstudiante, email); // Movido aquí
+            obtenerSolicitudes();
+        }
     }, [solicitudesActivoEstudiante]);
 
     useEffect(() => {
         obtenerHorasDisponibles();
+
       }, [date, selectedLab]);
     
     useEffect(() => {
         if (!loading) {
-            obtenerHorasFiltradas();
+            obtenerHorasFiltradas(); 
         }
       }, [horas, loading]);
     
     const obtenerSolicitudes = () => {
+        if (!solicitudesActivoEstudiante) return; // Verifica si date y selectedLab están definidos
         db.transaction(tx => {
           tx.executeSql(
-            'SELECT nombre_estudiante || ", " || tipo_activo || ", " || id AS numero FROM SOLICITUD_ACTIVO WHERE aprobado = 0 AND profesor = ?;', // Concatena los valores de nombre_estudiante y tipo_activo con una coma
+            'SELECT nombre_estudiante || ", " || tipo_activo || ", " || id || ", " || placa AS numero FROM SOLICITUD_ACTIVO WHERE aprobado = 0 AND profesor = ?;', // Concatena los valores de nombre_estudiante y tipo_activo con una coma
             [email],
             (tx, results) => {
               const data = [];
@@ -107,7 +97,6 @@ const HomeScreen = ({ navigation, route }) => {
                 data.push(results.rows.item(i).numero); // Agrega la cadena concatenada a la lista de datos
               }
               setPrestamosList(data);
-              console.log(data);
             },
             error => {
               console.error('Error al obtener las solicitudes:', error);
@@ -115,6 +104,56 @@ const HomeScreen = ({ navigation, route }) => {
           );
         });
       };
+
+      const obtenerLaboratoriosCreados = async () => {
+        try {
+          const response = await fetch('http://192.168.100.56:5095/Laboratorio/MostrarNombreLabsDisponibles');
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error('Error al obtener los laboratorios disponibles:', error);
+          throw error;
+        }
+      };
+
+      const obtenerDetalleLaboratorio = async (nombreLab) => {
+        try {
+          const response = await fetch(`http://192.168.100.56:5095/Laboratorio/MostrarInformacionLab?nombreLab=${nombreLab}`);
+          const data = await response.json();
+          return data[0];
+        } catch (error) {
+          console.error(`Error al obtener el detalle del laboratorio ${nombreLab}:`, error);
+          throw error;
+        }
+      };
+
+      const obtenerHorarioOcupado = async (nombreLab) => {
+        try {
+          const response = await fetch(`http://192.168.100.56:5095/PrestamoLab/MostrarHorarioReservado?nombreLab=${nombreLab}`);
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error(`Error al obtener el detalle del laboratorio ${nombreLab}:`, error);
+          throw error;
+        }
+      };
+
+      const obtenerYProcesarLaboratorios = async () => {
+        try {
+          const laboratoriosDisponibles = await obtenerLaboratoriosCreados();
+          for (const lab of laboratoriosDisponibles) {
+            const detalleLab = await obtenerDetalleLaboratorio(lab);
+            const horariosLab = await obtenerHorarioOcupado(lab);
+            insertarLaboratorio(lab, detalleLab.Capacidad, detalleLab.Computadores);
+            insertarHorarios(lab, horariosLab);
+          }
+        } catch (error) {
+          console.error('Error al obtener y procesar los laboratorios:', error);
+        }
+        obtenerLaboratoriosDisponibles();
+
+      };
+
 
       const obtenerLaboratoriosDisponibles = () => {
         db.transaction(tx => {
@@ -134,10 +173,65 @@ const HomeScreen = ({ navigation, route }) => {
             );
         });
     };
+
+
+    const obtenerHorarioLab = async (nombreLab) => {
+        try {
+          const response = await fetch(`http://192.168.100.56:5095/Horario/MostrarHorariosLab?nombreLab=${nombreLab}`);
+          const data = await response.json();
+          let res = [];
+          if(diaSemana === 'L'){
+            res = data[0];
+          }
+          if(diaSemana === 'K'){
+            res = data[1];
+          }
+          if(diaSemana === 'M'){
+            res = data[2];
+          }
+          if(diaSemana === 'J'){
+            res = data[3];
+          }
+          if(diaSemana === 'V'){
+            res = data[4];
+          }
+          setHoraApert(res.HoraApertura);
+          setHoradeCierre(res.HoraCierre);
+          }
+           catch (error) {
+          console.error(`Error al obtener el horario del laboratorio ${nombreLab}:`, error);
+          throw error;
+        }
+      };
+      const generarListaHoras = (horaApertura, horaCierre) => {
+        const fechaApertura = new Date(`2024-05-06T${horaApertura}`);
+        const fechaCierre = new Date(`2024-05-06T${horaCierre}`);
+    
+        const listaHoras = [];
+    
+        let horaActual = new Date(fechaApertura);
+    
+        while (horaActual <= fechaCierre) {
+            let horaActualStr = horaActual.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    
+            if (parseInt(horaActualStr.split(",")[0]) < 10){
+                horaActualStr = `0${horaActualStr}`;
+            }
+    
+            listaHoras.push(horaActualStr);
+    
+            horaActual.setHours(horaActual.getHours() + 1);
+        }
+        setAvailableTimes(listaHoras);
+
+    };
+
+
     const obtenerHorasFiltradas = () => {
                 // Restar las horas disponibles de la lista availableTimes
         const filteredTimes = availableTimes.filter(time => !horas.includes(time));
         setHorasSinSolicitud(filteredTimes);
+
     };
 
     const obtenerHorasDisponibles = () => {
@@ -213,6 +307,8 @@ const HomeScreen = ({ navigation, route }) => {
         if (event.type === 'set') {
             const currentDate = selectedDate || date;
             setDate(currentDate);
+            const diasSemana = ['D', 'L', 'K', 'M', 'J', 'V', 'S'];
+            setDiaSemana(diasSemana[currentDate.getDay()]);
             setShowDatePicker(false);
             setShowLabPickerModal(true);
         }
@@ -221,8 +317,11 @@ const HomeScreen = ({ navigation, route }) => {
     const handleLabPress = (lab) => {
         setSelectedLab(lab);
         setShowLabPickerModal(false);
+        obtenerHorarioLab(lab);
         obtenerHorasFiltradas(date,lab);
-        setShowTimePickerModal(true);
+        setTimeout(() => {
+            setShowTimePickerModal(true);
+        }, 1000);
     }
 
     const handleCaracteristicas = (lab) => {
@@ -237,33 +336,63 @@ const HomeScreen = ({ navigation, route }) => {
         setShowLabPickerModal(true);
     }
 
-    const handleTimePress = (time) => {
-        setSelectedTime(time);
-        setShowTimePickerModal(false);
-        // Aquí podrías realizar cualquier lógica adicional necesaria
-        db.transaction(tx => {
-            tx.executeSql(
-                'INSERT INTO HORARIO (fecha, nombre_lab, hora) VALUES (?, ?, ?);',
-                [date.toISOString().split('T')[0], selectedLab, time],
-                (tx, results) => {
-                    console.log('Hora seleccionada guardada en la tabla HORARIO:', results.rowsAffected);
-                    // Aquí puedes realizar cualquier acción adicional después de guardar la hora seleccionada
-                },
-                error => {
-                    console.error('Error al guardar la hora seleccionada:', error);
-                }
-            );
-        });
 
-        console.log('Día seleccionado:', date.toISOString().split('T')[0]);
-        console.log('Lab seleccionado:', selectedLab)
-        console.log('Hora seleccionada:', time);
-    };
+        const handleTimePress = (time) => {
+            setSelectedTime(time);
+            setShowTimePickerModal(false);
+        
+            db.transaction(tx => {
+                tx.executeSql(
+                    'INSERT INTO HORARIO (fecha, nombre_lab, hora) VALUES (?, ?, ?);',
+                    [date.toISOString().split('T')[0], selectedLab, time],
+                    (tx, results) => {
+                        console.log('Hora seleccionada guardada en la tabla HORARIO:', results.rowsAffected);
+        
+                        // Aquí realizas la solicitud POST
+                        const horaSeleccionada = time.split(":")[0];
+                        const horaFinalSeleccionada = (parseInt(horaSeleccionada) + 1).toString() + ":00:00";
+                        console.log(horaFinalSeleccionada);
+        
+                        // Realizar la solicitud POST aquí
+                        fetch('http://192.168.100.56:5095/Laboratorio/ApartarLaboratorioProfesor', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                correoProfesor: email,
+                                nombreLab: selectedLab,
+                                fecha: date.toISOString().split('T')[0],
+                                horaInicio: time,
+                                horaFinal: horaFinalSeleccionada
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al realizar la solicitud POST');
+                            }
+                            // Procesar la respuesta si es necesario
+                        })
+                        .catch(error => {
+                            console.error('Error al realizar la solicitud POST:', error);
+                            // Manejar el error si es necesario
+                        });
+                    },
+                    error => {
+                        console.error('Error al guardar la hora seleccionada:', error);
+                    }
+                );
+            });
+        
+            console.log('Día seleccionado:', date.toISOString().split('T')[0]);
+            console.log('Lab seleccionado:', selectedLab);
+            console.log('Hora seleccionada:', time);
+        };
 
     const threeWeeksFromNow = new Date();
     threeWeeksFromNow.setDate(threeWeeksFromNow.getDate() + 21); 
 
-    const handleCheck = (idSolicitud) => {
+    const handleCheck = (idSolicitud, placaActivo) => {
         db.transaction(tx => {
           tx.executeSql(
             'UPDATE SOLICITUD_ACTIVO SET aprobado = ? WHERE id = ?;',
@@ -275,6 +404,23 @@ const HomeScreen = ({ navigation, route }) => {
           );
         });
         obtenerSolicitudes();
+
+        fetch(`http://192.168.100.56:5095/SolicitudActivo/AprobarSolicitudActivoId?id=${idSolicitud}&placa=${placaActivo}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+            .then(response => {
+            if (!response.ok) {
+              throw new Error('Error al aceptar el activo');
+            }
+            // Procesar la respuesta si es necesario
+          })
+          .catch(error => {
+            console.error('Error al aceptar el activo:', error);
+            // Manejar el error si es necesario
+          });
       };
 
     
@@ -404,7 +550,7 @@ const HomeScreen = ({ navigation, route }) => {
                                         <View style={styles.row} key={index}>
                                             <Text style={styles.column}>{item.split(',')[0]}</Text>
                                             <Text style={styles.column}>{item.split(',')[1]}</Text>
-                                            <TouchableOpacity style={styles.iconContainer} onPress={() => handleCheck(item.split(',')[2])}>
+                                            <TouchableOpacity style={styles.iconContainer} onPress={() => handleCheck(item.split(',')[2], item.split(',')[3])}>
                                                 <Feather name="check-circle" size={20} color="green" />
                                             </TouchableOpacity>
                                         </View>
