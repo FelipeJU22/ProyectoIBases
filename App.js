@@ -9,7 +9,9 @@ import Account from './screens/resetPassword';
 import {asignarHorariosALaboratorios, borrarHorario, borrarLaboratorio, 
   borrarProfesores, borrarSolicitudes, crearBaseDeDatos, crearLaboratorios, 
   insertarProfesores, insertarSolicitudes, obtenerInstanciasHorario, borrarTablas, 
-  borrarBaseDeDatos} from './DataBase_SQLite/DBTables';
+  borrarBaseDeDatos,
+  
+  } from './DataBase_SQLite/DBTables';
 
 
 const Stack = createNativeStackNavigator();
@@ -21,7 +23,7 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://192.168.100.251:5095/Profesor/CredencialesProfesores', {
+      const response = await fetch('http://192.168.100.56:5095/Profesor/CredencialesProfesores', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -41,11 +43,14 @@ function App() {
 
   useEffect(() => {
 //AQUÍ VA LO QUE SE QUIERA CAMBIAR DE LA BASE DE DATOS
-    crearBaseDeDatos();
 
-    borrarProfesores();
-    borrarSolicitudes();
-    fetchData();
+  crearBaseDeDatos();
+  borrarProfesores();
+  borrarSolicitudes();
+  borrarHorario();
+  borrarLaboratorio();
+  
+  fetchData();
   }, []); // Esto asegura que se ejecute solo una vez al inicio de la aplicación
 
   useEffect(() => {
