@@ -229,5 +229,16 @@ namespace LabCE_API.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("VerificarAprobacion")]
+        public IActionResult VerificarAprobacion(string correoOperador)
+        {
+            if (_profesorBLL.VerificarAprobacionBLL(correoOperador))
+                return Ok("El operador está aprobado");
+
+            else
+                return Unauthorized("El operador no está aprobado");
+        }
+
     }
 }

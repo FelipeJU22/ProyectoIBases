@@ -21,6 +21,7 @@ namespace LabCE_BLL.Interfaces
         public void ModificarCedulaProfesorBLL(string correo, string cedula);
         public void ModificarFechaNacimientoBLL(string correo, string fecha);
         public void AprobarOperadorBLL(string correoOperador);
+        public bool VerificarAprobacionBLL(string correoOperador);
 
     }
 }
