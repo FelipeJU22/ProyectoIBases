@@ -505,4 +505,21 @@ INSERT INTO REGISTRO_HORAS (hora_entrada, hora_salida, correo_operador)
 VALUES (@hora_entrada, @hora_salida, @correo_operador)
 END
 GO
-
+GO
+CREATE PROCEDURE aprobar_operador (@correo_operador VARCHAR(50))
+AS
+BEGIN
+UPDATE OPERADOR
+SET aprobado = 1
+WHERE correo = @correo_operador
+END
+GO
+GO
+CREATE PROCEDURE verificar_aprobacion (@correo_operador VARCHAR(50))
+AS
+BEGIN
+SELECT aprobado
+FROM OPERADOR
+WHERE correo = @correo_operador
+END
+GO
