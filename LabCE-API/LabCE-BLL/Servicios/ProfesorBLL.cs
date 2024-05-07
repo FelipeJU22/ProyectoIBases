@@ -46,7 +46,7 @@ namespace LabCE_BLL.Servicios
             }
         }
 
-        public List<ProfesorDTO> GetProfesorCredencialesBLL()
+        public List<Profesor> GetProfesorCredencialesBLL()
         {
             try
             {
