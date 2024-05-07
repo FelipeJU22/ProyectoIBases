@@ -208,5 +208,26 @@ namespace LabCE_API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Aprueba un operador
+        /// </summary>
+        /// <param name="correo"></param>
+        /// <param name="nuevoNombre"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("AprobarOperador")]
+        public IActionResult aprobarOperador(string correoOperador)
+        {
+            try
+            {
+                _profesorBLL.AprobarOperadorBLL(correoOperador);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Ok();
+        }
+
     }
 }

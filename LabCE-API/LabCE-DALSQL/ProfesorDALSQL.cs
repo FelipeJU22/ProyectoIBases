@@ -344,5 +344,32 @@ namespace LabCE_DALSQL
             }
         }
 
+        public void AprobarOperador(string correoOperador)
+        {
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
+            string procedAlmacenado = "[aprobar_operador]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correo_operador", SqlDbType.VarChar).Value = correoOperador;
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
     }
 }

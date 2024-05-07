@@ -34,6 +34,18 @@ namespace LabCE_BLL.Servicios
             }
         }
 
+        public void AprobarOperadorBLL(string correoOperador)
+        {
+            try
+            {
+                _profesorDALSQL.AprobarOperador(correoOperador);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public void CambiarContraseñaProfesorBLL(ProfesorDTO profesor)
         {
             try
