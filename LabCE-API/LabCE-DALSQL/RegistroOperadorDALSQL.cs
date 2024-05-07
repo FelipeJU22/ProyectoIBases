@@ -63,6 +63,35 @@ namespace LabCE_DALSQL
             return registros;
         }
 
+        public void InsertarJornada(OperadorDTO operador)
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[insertar_jornada]";
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+
+
+                        comando.Parameters.Add("@correo_operador", SqlDbType.VarChar).Value = operador.CorreoOperador;
+                        comando.Parameters.Add(new SqlParameter("@hora_entrada", TimeSpan.Parse(operador.HoraEntrada)));
+                        comando.Parameters.Add(new SqlParameter("@hora_salida", TimeSpan.Parse(operador.HoraSalida)));
+
+                        comando.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
 
     }

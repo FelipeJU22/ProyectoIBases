@@ -14,6 +14,8 @@ namespace LabCE_BLL.Interfaces
         public void ModificarTipoBLL(string placa, string nuevoTipo);
         public void ModificarMarcaBLL(string placa, string nuevaMarca);
         public void ModificarFechaCompraBLL(string placa, string fecha);
+        public List<ActivoDTO> GetActivosDisponiblesBLL();
+        public List<ActivoEnPrestamoDTO> GetActivosEnPrestamoBLL();
 
     }
 }

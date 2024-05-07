@@ -10,6 +10,7 @@ namespace LabCE_BLL.Interfaces
     public interface IRegistroOperadorBLL
     {
         public List<RegistroHorasDTO> GetReporteHorasBLL(string correoOperador);
+        public void InsertarJornadaBLL(OperadorDTO operador);
 
     }
 }

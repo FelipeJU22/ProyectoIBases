@@ -126,10 +126,8 @@ namespace LabCE_API.Controllers
             catch (Exception ex)
             {
                 throw;
-
             }
             return Ok();
         }
-
     }
 }

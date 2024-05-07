@@ -172,5 +172,88 @@ namespace LabCE_DALSQL
                 throw;
             }
         }
+
+        public List<ActivoDTO> GetActivosDisponibles()
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[mostrar_activos_disponibles]";
+
+            var activos = new List<ActivoDTO>();
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+
+                        using (IDataReader respuesta = comando.ExecuteReader())
+                        {
+                            while (respuesta.Read())
+                            {
+                                ActivoDTO activo = new ActivoDTO()
+                                {
+                                    Placa = respuesta["placa"].ToString(),
+                                    Tipo = respuesta["tipo"].ToString(),
+                                    Marca = respuesta["marca"].ToString(),
+                                };
+
+                                activos.Add(activo);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return activos;
+        }
+
+        public List<ActivoEnPrestamoDTO> GetActivosEnPrestamo()
+        {
+            string baseDatos = _configuration.GetConnectionString("default");
+            string procedAlmacenado = "[mostrar_activos_en_prestamo]";
+
+            var activos = new List<ActivoEnPrestamoDTO>();
+
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+
+                        using (IDataReader respuesta = comando.ExecuteReader())
+                        {
+                            while (respuesta.Read())
+                            {
+                                ActivoEnPrestamoDTO activo = new ActivoEnPrestamoDTO()
+                                {
+                                    Id = Convert.ToInt32(respuesta["id"]).ToString(),
+                                    PlacaActivo = respuesta["placa_activo"].ToString()
+                                };
+
+                                activos.Add(activo);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return activos;
+        }
+
+
     }
 }

@@ -92,6 +92,28 @@ namespace LabCE_API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Retorna la informacion de activos disponibles
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("MostrarActivosDisponibles")]
+        public IActionResult MostrarActivosDisponibles()
+        {
+            var resultado = _activoBLL.GetActivosDisponiblesBLL();
+            return Ok(resultado);
+        }
 
+        /// <summary>
+        /// Retorna el Id de la solicitud junto con la placa del activo en prestamos
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("MostrarActivosEnPrestamos")]
+        public IActionResult MostrarActivosEnPrestamos()
+        {
+            var resultado = _activoBLL.GetActivosEnPrestamoBLL();
+            return Ok(resultado);
+        }
     }
 }

@@ -21,6 +21,40 @@ namespace LabCE_BLL.Servicios
             _activoDALSQL = activoDALSQL;
         }
 
+        public List<ActivoDTO> GetActivosDisponiblesBLL()
+        {
+            try
+            {
+                var resultado = _activoDALSQL.GetActivosDisponibles();
+
+                if (resultado == null)
+                    return null;
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public List<ActivoEnPrestamoDTO> GetActivosEnPrestamoBLL()
+        {
+            try
+            {
+                var resultado = _activoDALSQL.GetActivosEnPrestamo();
+
+                if (resultado == null)
+                    return null;
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public List<ActivoInfoDTO> GetActivosInfoBLL()
         {
             try
