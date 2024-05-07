@@ -24,7 +24,7 @@ namespace LabCE_DALSQL
             _mapper = mapper;   
         }
 
-        public List<ProfesorDTO> GetProfesorCredenciales() 
+        public List<Profesor> GetProfesorCredenciales() 
         {
             string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[credenciales_profesor]";
@@ -48,7 +48,13 @@ namespace LabCE_DALSQL
                                 Profesor profesor = new Profesor()
                                 {
                                     Correo = respuesta["correo"].ToString(),
-                                    Password = respuesta["password"].ToString()
+                                    Cedula = respuesta["num_cedula"].ToString(),
+                                    Password = respuesta["password"].ToString(),
+                                    Nombre = respuesta["nombre"].ToString(),
+                                    Apellido1 = respuesta["apellido1"].ToString(),
+                                    Apellido2 = respuesta["apellido2"].ToString(),
+                                    FechaNacimiento = Convert.ToDateTime(respuesta["fecha_nacimiento"]).ToString("yyyy-MM-dd"),
+                                    CorreoAdministrador = respuesta["correo_administrador"].ToString(),
                                 };
                                 profesores.Add(profesor);
                             }
@@ -60,9 +66,8 @@ namespace LabCE_DALSQL
             {
                 throw;
             }
-            List<ProfesorDTO> profesoresDTOs = profesores.Select(p => _mapper.Map<ProfesorDTO>(p)).ToList();
 
-            return profesoresDTOs;
+            return profesores;
         }
 
         public List<SolicitudPendienteDTO> GetSolicitudesPendientes(string correoProfesor)

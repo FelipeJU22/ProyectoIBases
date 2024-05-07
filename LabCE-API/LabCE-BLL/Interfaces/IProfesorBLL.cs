@@ -10,7 +10,7 @@ namespace LabCE_BLL.Interfaces
 {
     public interface IProfesorBLL
     {
-        public List<ProfesorDTO> GetProfesorCredencialesBLL();
+        public List<Profesor> GetProfesorCredencialesBLL();
         public List<SolicitudPendienteDTO> GetSolicitudesPendientesBLL(string correo);
         public void CambiarContraseñaProfesorBLL(ProfesorDTO profesor);
         public void AgregarProfesorBLL(Profesor profesor);
