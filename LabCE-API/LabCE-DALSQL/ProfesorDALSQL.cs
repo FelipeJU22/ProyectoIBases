@@ -370,6 +370,44 @@ namespace LabCE_DALSQL
             }
         }
 
+        public bool VerificarAprobacion(string correoOperador)
+        {
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
+            string procedAlmacenado = "[verificar_aprobacion]";
+
+            bool aprobado = false;
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(baseDatos))
+                {
+                    conexion.Open();
+
+                    using (SqlCommand comando = new SqlCommand(procedAlmacenado, conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.Add("@correo_operador", SqlDbType.VarChar).Value = correoOperador;
+
+                        using (IDataReader respuesta = comando.ExecuteReader())
+                        {
+                            while (respuesta.Read())
+                            {
+                                aprobado = Convert.ToBoolean(respuesta["aprobado"]);
+
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return aprobado;
+        }
+
+
 
     }
 }

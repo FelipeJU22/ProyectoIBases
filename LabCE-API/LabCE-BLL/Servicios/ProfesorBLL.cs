@@ -162,5 +162,19 @@ namespace LabCE_BLL.Servicios
                 throw;
             }
         }
+
+        public bool VerificarAprobacionBLL(string correoOperador)
+        {
+            try
+            {
+                var resultado = _profesorDALSQL.VerificarAprobacion(correoOperador);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
