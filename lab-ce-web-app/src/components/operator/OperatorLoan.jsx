@@ -59,22 +59,15 @@ function OperatorLoan() {
 
     return <>
 
-        <h2>Opciones para préstamo de activos</h2>
+        <div className={classes.box}>
+            <h2>Opciones para préstamo de activos</h2>
 
-        {solicitudes.length > 0 ? (
-            <div className={classes.box}>
+            <Link to='/operador/prestamo-profesor'>Solicitar préstamo a profesor</Link> <br />
+            <Link to='/operador/labs'>Solicitar préstamo a estudiante</Link> <br />
+            <Link to='/testing'>Devolución de activo</Link> <br />
 
-                <Link to='/operador/prestamo-profesor'>Solicitar préstamo a profesor</Link> <br />
-                <Link to='/operador/labs'>Solicitar préstamo a estudiante</Link> <br />
-                <Link to='/testing'>Devolución de activo</Link> <br />
-
-            </div>
-        ) :
-            <div>
-                <p>No hay solicitudes de préstamo pendientes.</p>
-            </div>}
-
-        <button onClick={goBack}>Volver</button>
+            <button onClick={goBack}>Volver</button>
+        </div>
     </>
 }
 

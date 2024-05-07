@@ -4,13 +4,14 @@ import LabOption from "../profesor/LabOption";
 import CalendarComponent from "../profesor/CalendarComponent";
 import TimeSelector from "../profesor/TimeSelector";
 import { Navigate, useNavigate } from "react-router-dom";
+import classes from './Operator.module.css'
 
 function Labs() {
     const API_URL = 'http://localhost:5095'
     const INFO_LAB_EP = '/Laboratorio/MostrarInformacionLab?nombreLab='
     const CURRENT_LABS_EP = '/Laboratorio/MostrarNombreLabsDisponibles'
     const LAB_SCHEDULE_EP = '/Horario/MostrarHorariosLab?nombreLab='
-    const LAB_RESERVATION_EP = '/Laboratorio/ApartarLaboratorioProfesor'
+    const LAB_RESERBATION_STUD = '/PrestamoLab/ReservarLabEstudiante'
 
     const usuarioProfesor = 'jleiton@itcr.com'
 
@@ -20,6 +21,11 @@ function Labs() {
     const [selectedTime, setSelectedTime] = useState(null);
     const [weekSchedule, setWeekSchedule] = useState([]);
     const [hourScheduleArray, sethourScheduleArray] = useState([]);
+
+    const [carnetEstudiante, setCarnetEstudiante] = useState('');
+    const [correoEstudiante, setCorreoEstudiante] = useState('');
+    const [nombreEstudainte, setNombreEstudiante] = useState('');
+    const [apellidoEstudiante, setApellidoEstudiante] = useState('');
 
     const [showCalendar, setShowCalendar] = useState(false);
     const [showTime, setShowTime] = useState(false);
@@ -33,7 +39,6 @@ function Labs() {
         }
         fetchDataAndLabs();
     }, []);
-
 
     useEffect(() => {
         setShowCalendar(selectedLab !== "");
@@ -51,7 +56,8 @@ function Labs() {
         getDaySchedule(selectedDay);
 
         setSelectedDate(formatDate(date));
-        setShowTime(true)
+        console.log()
+        setShowTime(true);
     };
 
     const handleTimeSelect = (time) => {
@@ -102,7 +108,6 @@ function Labs() {
         return hoursArray;
     }
 
-
     function translateDayAbbreviation(dayAbbreviation) {
         const dayMappings = {
             "Mon": "L", // Lunes
@@ -145,11 +150,15 @@ function Labs() {
     async function LabReservation() {
         try {
             const body = {
-                correoProfesor: usuarioProfesor,
-                nombreLab: selectedLab,
+                carneEstudiante: carnetEstudiante,
+                correoEstudiante: correoEstudiante,
+                nombreEstudiante: nombreEstudainte,
+                apellido1Estudiante: apellidoEstudiante.split(' ')[0],
+                apellido2Estudiante: apellidoEstudiante.split(' ')[1],
                 fecha: selectedDate,
                 horaInicio: selectedTime,
-                horaFinal: "00:00:00"
+                horaFinal: "00:00:00",
+                nombreLab: selectedLab
             }
             const requestBody = {
                 method: 'POST',
@@ -161,7 +170,7 @@ function Labs() {
 
             console.log('BODY: ', body)
 
-            const response = await fetch(API_URL + LAB_RESERVATION_EP, requestBody);
+            const response = await fetch(API_URL + LAB_RESERBATION_STUD, requestBody);
             const jsonResp = await response.text();
             console.log('New Reservation!!!', jsonResp)
         } catch (error) {
@@ -249,7 +258,32 @@ function Labs() {
                 transition: 'opacity 0.5s ease-in-out'
             }}>
                 {showCalendar && (
-                    <div>
+                    <div className={classes.reservationOpts}>
+                        <h2>Opciones del Estudiante</h2>
+                        <input
+                            required
+                            type="text"
+                            placeholder="Número de Carnet"
+                            onChange={(e) => setCarnetEstudiante(e.target.value)}
+                        />
+                        <input
+                            required
+                            type="text"
+                            placeholder="Correo Estudiante"
+                            onChange={(e) => setCorreoEstudiante(e.target.value)}
+                        />
+                        <input
+                            required
+                            type="text"
+                            placeholder="Nombre del Estudiante"
+                            onChange={(e) => setNombreEstudiante(e.target.value)}
+                        />
+                        <input
+                            required
+                            type="text"
+                            placeholder="Apellidos del Estudiante"
+                            onChange={(e) => setApellidoEstudiante(e.target.value)}
+                        />
                         <h2>Seleccionar fecha</h2>
                         <CalendarComponent onSelectDate={handleDateSelect} />
                     </div>

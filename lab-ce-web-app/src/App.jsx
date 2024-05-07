@@ -36,6 +36,7 @@ import OperatorHome from './components/operator/OperatorHome.jsx'
 import OperatorLoan from './components/operator/OperatorLoan.jsx'
 import OperatorLabs from './components/operator/OperatorLabs.jsx'
 import OperatorLoanPf from './components/operator/OperatorLoanPf.jsx'
+import ProfValidator from './components/operator/ProfValidator.jsx'
 
 
 
@@ -74,6 +75,7 @@ function App() {
         <Route path='/operador/labs' element={<OperatorLabs />} />
         <Route path='/operador/prestamo-profesor' element={<OperatorLoanPf />} />
         <Route path='/operador/prestamo-estudiante' element={<OperatorHome />} />
+        <Route path='/operador/validacion-profesor' element={<ProfValidator />} />
 
         {/* Professor Routes */}
         <Route element={<RequireAuth allowedRoles={[100]} />}>

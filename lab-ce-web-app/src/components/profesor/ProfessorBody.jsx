@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Actives from "./Actives";
+import useAuth from '../../hooks/useAuth';
+
 
 function ProfessorBody() {
 
+    const { getAuth } = useAuth();
     const navigate = useNavigate();
     const goBack = () => navigate(-1);
 
@@ -28,6 +31,7 @@ function ProfessorBody() {
             //console.log('leng: ' + resData.length)
             //const resData = await JSON.parse(response); // Try parsing the response data
             setSolicitude(resData)
+            console.log('USER: ', getAuth.user)
         }
 
         fetchPosts();
