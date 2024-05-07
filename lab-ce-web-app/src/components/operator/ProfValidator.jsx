@@ -1,22 +1,13 @@
+import classes from '../profesor/LoginPage.module.css';
 import { useRef, useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import md5 from 'md5';
-import classes from '../profesor/LoginPage.module.css';
 
+function ProfValidator() {
 
-function OperatorLogin() {
-
-    const API_URL = 'http://localhost:5095'
-    const LOGIN_OPERADOR_EP = '/Ingreso/IngresoOperador'
-
-    const roles = [101];
-
-    const { setAuth } = useAuth();
-
-    const navigate = useNavigate();
     const location = useLocation();
-    const from = "/operador/home"
+    const from = location.state?.from?.pathname || '/operador/prestamo-profesor'
 
     const userRef = useRef();
     const errRef = useRef();
@@ -24,8 +15,15 @@ function OperatorLogin() {
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
     const [retryLogin, setRetryLogin] = useState(false);
+    const [responseMsg, setResponseMsg] = useState('');
 
+    const navigate = useNavigate();
+    const goBack = () => navigate(-1);
+
+    const API_URL = 'http://localhost:5095'
+    const AVAILABLE_ACTIVES = '/Profesor/MostrarActivosDisponibles'
 
     useEffect(() => {
         userRef.current.focus();
@@ -35,14 +33,23 @@ function OperatorLogin() {
         setErrMsg('');
     }, [user, pwd])
 
+
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    };
+
+    async function setActiveRequest() {
+        const response = await fetch(API_URL + AVAILABLE_ACTIVES, requestOptions)
+        const resData = await response.json();
+        console.log(resData)
+        setActiveList(resData)
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            console.log(user, pwd, roles)
-            console.log('Password: ', pwd);
-            console.log('Encypted:', md5(pwd));
-
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -52,24 +59,21 @@ function OperatorLogin() {
                 })
             };
 
-            const response = await fetch(API_URL + LOGIN_OPERADOR_EP, requestOptions)
+            const response = await fetch('http://localhost:5095/Ingreso/IngresoProfesor', requestOptions)
             const textData = await response.text();
 
-            console.log(response.status)
+            console.log(from)
 
             if (response.status === 200) {
-                //setResponseMsg(textData);
+                setResponseMsg(textData);
                 //setSuccess(true);
                 console.log(response);
-                setAuth({ user, pwd, roles });
-                console.log('NAVIGATING')
                 setUser('');
                 setPwd('');
                 //navigate('/adwda')
                 //navigate('/profesores');
-                navigate(from);
+                navigate(from, { replace: true });
             } else {
-                console.log('NOT NAVIGATING')
                 setResponseMsg(textData)
                 setRetryLogin(true)
             }
@@ -79,15 +83,18 @@ function OperatorLogin() {
             //const resData = await JSON.parse(response); // Try parsing the response data
 
         } catch (err) {
+            console.log('Error:', err);
 
         }
     }
 
     return (
         <div>
+            <div className={classes.toptobottom}>
+                <h3>Validación de Cuenta</h3>
+            </div>
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
-            <h1>Iniciar Sesión Operador</h1>
-            <form onSubmit={handleSubmit} className={classes.form}>
+            <form className={classes.form}>
                 <p>
                     <label htmlFor="username">Usuario</label>
                     <input
@@ -111,23 +118,21 @@ function OperatorLogin() {
                     />
                 </p>
 
+                <p>
+                    *Indique las credenciales del profesor que requiere el activo.
+                </p>
+
                 <p id="loginnote" className={retryLogin ? classes.instructions : classes.hide}>
                     Usuario Incorrecto
                 </p>
 
-                <p className={classes.actions}>
-                    <button>Ingresar</button>
-                </p>
+                <div className={classes.buttonSect}>
+                    <button onClick={goBack}>Volver</button>
+                    <button onClick={handleSubmit}>Validar</button>
+                </div>
             </form>
-            <p>
-                No tiene cuenta?<br />
-                <span className="line">
-                    {/*Link para enrutar aqui*/}
-                    <a href="#">Registrarse</a>
-                </span>
-            </p>
         </div>
     )
 }
 
-export default OperatorLogin;
+export default ProfValidator;

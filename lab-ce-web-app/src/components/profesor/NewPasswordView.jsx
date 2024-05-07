@@ -3,6 +3,7 @@ import classes from './NewPasswordView.module.css';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 
@@ -24,6 +25,7 @@ function NewPasswordView() {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
+    const navigate = useNavigate();
     const goBack = () => navigate(-1);
 
     useEffect(() => {
