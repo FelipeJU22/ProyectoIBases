@@ -26,7 +26,7 @@ namespace LabCE_DALSQL
 
         public List<ProfesorDTO> GetProfesorCredenciales() 
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[credenciales_profesor]";
 
             var profesores = new List<Profesor>();
@@ -67,7 +67,7 @@ namespace LabCE_DALSQL
 
         public List<SolicitudPendienteDTO> GetSolicitudesPendientes(string correoProfesor)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[solicitudes_pendientes]";
 
             var solicitudes = new List<SolicitudPendienteDTO>();
@@ -112,7 +112,7 @@ namespace LabCE_DALSQL
 
         public void CambiarContraseñaProfesor(ProfesorDTO profesor)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_password_profesor]";
 
             try
@@ -139,7 +139,7 @@ namespace LabCE_DALSQL
 
         public void AgregarProfesor(Profesor profesor)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[agregar_profesor]";
 
             try
@@ -173,7 +173,7 @@ namespace LabCE_DALSQL
 
         public void ModificarNombre(string correoProfesor, string nuevoNombre)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_nombre_profesor]";
 
             try
@@ -201,7 +201,7 @@ namespace LabCE_DALSQL
 
         public void ModificarPrimerApellido(string correoProfesor, string apellido)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_apellido1_profesor]";
 
             try
@@ -229,7 +229,7 @@ namespace LabCE_DALSQL
 
         public void ModificarSegundoApellido(string correoProfesor, string apellido)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_apellido2_profesor]";
 
             try
@@ -257,7 +257,7 @@ namespace LabCE_DALSQL
 
         public void ModificarCorreo(string correoActual, string correoNuevo)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_correo_profesor]";
 
             try
@@ -285,7 +285,7 @@ namespace LabCE_DALSQL
 
         public void ModificarCedulaProfesor(string correo, string cedula)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_num_cedula_profesor]";
 
             try
@@ -313,7 +313,7 @@ namespace LabCE_DALSQL
 
         public void ModificarFechaNacimiento(string correo, string fecha)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_fecha_nacimiento_profesor]";
 
             try

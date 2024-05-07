@@ -23,7 +23,7 @@ namespace LabCE_DALSQL
         }
         public List<RegistroHorasDTO>GetReporteHoras(string correoOperador)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_reporte_horas_laboradas]";
 
             var registros = new List<RegistroHorasDTO>();
@@ -65,7 +65,7 @@ namespace LabCE_DALSQL
 
         public void InsertarJornada(OperadorDTO operador)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[insertar_jornada]";
 
             try

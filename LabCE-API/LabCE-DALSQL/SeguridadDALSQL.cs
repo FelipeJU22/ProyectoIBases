@@ -16,7 +16,7 @@ namespace LabCE_DALSQL
 
         public bool IngresoOperador(UsuarioDTO usuario)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[login_operador]";
 
             bool existe = false;
@@ -51,7 +51,7 @@ namespace LabCE_DALSQL
 
         public bool IngresoAdministrador(UsuarioDTO usuario)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[login_administrador]";
 
             bool existe = false;
@@ -86,7 +86,7 @@ namespace LabCE_DALSQL
 
         public bool IngresoProfesor(UsuarioDTO usuario)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[login_profesor]";
 
             bool existe = false;

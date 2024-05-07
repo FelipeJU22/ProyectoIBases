@@ -25,7 +25,7 @@ namespace LabCE_DALSQL
 
         public List<ActivoInfoDTO> GetActivosInfo()
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_info_activos]";
 
             var activos = new List<ActivoInfoDTO>();
@@ -67,7 +67,7 @@ namespace LabCE_DALSQL
 
         public void ModificarPlaca(string placaActual, string placaNueva)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[modificar_placa_activo]";
 
             try
@@ -94,7 +94,7 @@ namespace LabCE_DALSQL
 
         public void ModificarTipo(string placa, string nuevoTipo)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[modificar_tipo_activo]";
 
             try
@@ -121,7 +121,7 @@ namespace LabCE_DALSQL
 
         public void ModificarMarca(string placa, string nuevaMarca)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[modificar_marca_activo]";
 
             try
@@ -148,7 +148,7 @@ namespace LabCE_DALSQL
 
         public void ModificarFechaCompra(string placa, string fecha)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[modificar_fecha_compra_activo]";
 
             try
@@ -175,7 +175,7 @@ namespace LabCE_DALSQL
 
         public List<ActivoDTO> GetActivosDisponibles()
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_activos_disponibles]";
 
             var activos = new List<ActivoDTO>();
@@ -216,7 +216,7 @@ namespace LabCE_DALSQL
 
         public List<ActivoEnPrestamoDTO> GetActivosEnPrestamo()
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_activos_en_prestamo]";
 
             var activos = new List<ActivoEnPrestamoDTO>();

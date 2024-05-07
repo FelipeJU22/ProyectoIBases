@@ -27,7 +27,7 @@ namespace LabCE_DALSQL
 
         public List<string> GetFacilidadesLaboratorio(string nombreLab) 
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_facilidades]";
 
             var facilidades = new List<string>();
@@ -68,7 +68,7 @@ namespace LabCE_DALSQL
 
         public List<Horario> GetHorarioOcupado(string nombreLab)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[horario_ocupado]";
 
             var horarios = new List<Horario>();
@@ -111,7 +111,7 @@ namespace LabCE_DALSQL
 
         public List<LaboratorioDTO> GetLabInfo(string nombreLab)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[info_lab]";
 
             var laboratorios = new List<Laboratorio>();
@@ -155,7 +155,7 @@ namespace LabCE_DALSQL
 
         public void ApartarLaboratorioProfesor(ApartadoLaboratorioDTO apartado)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[apartado_laboratorio_profesor]";
 
             try
@@ -185,7 +185,7 @@ namespace LabCE_DALSQL
 
         public List<ActivoLabDTO> GetActivosLab(string nombreLab)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_activos_lab]";
 
             var activos = new List<ActivoLabDTO>();
@@ -227,7 +227,7 @@ namespace LabCE_DALSQL
 
         public int GetCantActivosLab(string nombreLab)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_cantidad_activos_lab]";
 
             int cantidad = new Int32();
@@ -262,7 +262,7 @@ namespace LabCE_DALSQL
         }
         public void CambiarNombreLab(string nombreActual, string nombreNuevo)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[modificar_nombre_lab]";
 
 
@@ -290,7 +290,7 @@ namespace LabCE_DALSQL
 
         public void ModificarCapacidad(string nombreLab, int capacidad)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[modificar_capacidad_lab]";
 
             try
@@ -317,7 +317,7 @@ namespace LabCE_DALSQL
 
         public void ModificarComputadores(string nombreLab, int computadores)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[modificar_computadores_lab]";
 
             try
@@ -344,7 +344,7 @@ namespace LabCE_DALSQL
 
         public List<string> GetNombreLabsDisponibles()
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_labs_disponibles]";
 
             List<string> labs = new List<string>();
@@ -382,7 +382,7 @@ namespace LabCE_DALSQL
 
         public void AgregarLaboratorio(string nombreLab, int capacidad, int computadores)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[agregar_laboratorio]";
 
             try

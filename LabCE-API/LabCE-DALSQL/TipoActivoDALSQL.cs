@@ -23,7 +23,7 @@ namespace LabCE_DALSQL
 
         public void AgregarTipoActivo(string tipo)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[agregar_tipo_activo]";
 
             try
@@ -49,7 +49,7 @@ namespace LabCE_DALSQL
 
         public void ModificarNombreTipo(string tipoActual, string tipoNuevo)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_nombre_tipo_activo]";
 
             try

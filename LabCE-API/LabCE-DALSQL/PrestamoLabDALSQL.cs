@@ -25,7 +25,7 @@ namespace LabCE_DALSQL
 
         public List<PrestamoLabDTO> GetHorariosReservadosLab(string nombreLab)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_reservas_lab]";
 
             var reservas = new List<PrestamoLabDTO>();
@@ -68,7 +68,7 @@ namespace LabCE_DALSQL
 
         public void ReservarLabEstudiante(EstudiantePrestamoLabDTO estudiante)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[reserva_lab_estudiante]";
 
             try

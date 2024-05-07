@@ -25,7 +25,7 @@ namespace LabCE_DALSQL
 
         public void EliminarFacilidad(FacilidadDTO facilidad)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[eliminar_facilidad]";
 
             try
@@ -52,7 +52,7 @@ namespace LabCE_DALSQL
 
         public void AgregarFacilidad(FacilidadDTO facilidad)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[agregar_facilidad]";
 
             try

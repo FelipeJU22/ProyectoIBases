@@ -24,7 +24,7 @@ namespace LabCE_DALSQL
 
         public void AgregarAveria(int id, string detalle)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[agregar_averia]";
 
             try

@@ -23,7 +23,7 @@ namespace LabCE_DALSQL
         }
         public List<HorarioLabDTO> GetHorarioLab(string nombreLab)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_horario_lab]";
 
             var horarios = new List<HorarioLabDTO>();
@@ -65,7 +65,7 @@ namespace LabCE_DALSQL
         }
         public void CambiarHorarioLab(string nombreLab, char dia, string horaApertura, string horaCierre)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[cambiar_horario_lab]";
 
             try

@@ -23,7 +23,7 @@ namespace LabCE_DALSQL
         }
         public void AprobarSolicitudActivoId(int id, string placa)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[aprobacion_activo]";
 
             try
@@ -50,7 +50,7 @@ namespace LabCE_DALSQL
 
         public List<PrestamoActivoDTO> GetPrestamosActivo(string placa)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[mostrar_prestamos_activo]";
 
             var prestamos = new List<PrestamoActivoDTO>();
@@ -98,7 +98,7 @@ namespace LabCE_DALSQL
         }
         public void EliminarSolicitudActivoId(int id)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[eliminar_solicitud_activo]";
 
             try
@@ -124,7 +124,7 @@ namespace LabCE_DALSQL
 
         public void AgregarSolicitudActivo(SolicitudActivoDTO solicitud)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[solicitud_activos]";
 
             try
@@ -156,7 +156,7 @@ namespace LabCE_DALSQL
         }
         public void FinalizarPrestamo(int id, string placa_activo)
         {
-            string baseDatos = _configuration.GetConnectionString("default");
+            string baseDatos = _configuration.GetConnectionString("DefaultConnection");
             string procedAlmacenado = "[finalizar_prestamo_activo]";
 
             try
