@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import LabOption from "./LabOption";
 import CalendarComponent from "./CalendarComponent";
 import TimeSelector from "./TimeSelector";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Labs() {
     const API_URL = 'http://localhost:5095'
@@ -12,6 +13,8 @@ function Labs() {
     const LAB_RESERVATION_EP = '/Laboratorio/ApartarLaboratorioProfesor'
 
     const usuarioProfesor = 'jleiton@itcr.com'
+
+
 
     const [data, setData] = useState([]);
     const [selectedLab, setSelectedLab] = useState('');
@@ -23,6 +26,7 @@ function Labs() {
     const [showCalendar, setShowCalendar] = useState(false);
     const [showTime, setShowTime] = useState(false);
 
+    const navigate = useNavigate();
     const goBack = () => navigate(-1);
 
     useEffect(() => {

@@ -31,6 +31,14 @@ import LoginAdmin from './components/LoginAdmin.jsx'
 import NewPasswordView from './components/profesor/NewPasswordView.jsx'
 import Labs from './components/profesor/Labs.jsx'
 import LogoutPage from './routes/LogoutPage.jsx'
+import OperatorLogin from './components/operator/OperatorLogin.jsx'
+import OperatorHome from './components/operator/OperatorHome.jsx'
+import OperatorLoan from './components/operator/OperatorLoan.jsx'
+import OperatorLabs from './components/operator/OperatorLabs.jsx'
+import OperatorLoanPf from './components/operator/OperatorLoanPf.jsx'
+import ProfValidator from './components/operator/ProfValidator.jsx'
+
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -59,6 +67,15 @@ function App() {
         <Route path='/operador/regaverias' element={<Regaverias />} />
         <Route path='/operador/reportes' element={<Reportsop />} />
         <Route path='/logout' element={<LogoutPage />} />
+
+        {/* NEW OPERATOR Routes */}
+        <Route path='/operador/login' element={<OperatorLogin />} />
+        <Route path='/operador/home' element={<OperatorHome />} />
+        <Route path='/operador/prestamo' element={<OperatorLoan />} />
+        <Route path='/operador/labs' element={<OperatorLabs />} />
+        <Route path='/operador/prestamo-profesor' element={<OperatorLoanPf />} />
+        <Route path='/operador/prestamo-estudiante' element={<OperatorHome />} />
+        <Route path='/operador/validacion-profesor' element={<ProfValidator />} />
 
         {/* Professor Routes */}
         <Route element={<RequireAuth allowedRoles={[100]} />}>
